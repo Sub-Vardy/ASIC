@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTL-to-GDSII 실무 로드맵 (L0 공부 플랜) · Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0f17;--surface:#131c2a;--surface-2:#1a2536;--card:#15202f;--term:#070b12;
+    --line:#26354c;--ink:#eaf0f7;--muted:#90a0b6;--faint:#5d6e85;--gold:#fde047;
+    --mono:'JetBrains Mono',ui-monospace,monospace;--disp:'Space Grotesk',system-ui,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--disp);line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:90px}
+  .topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:11px 16px;
+    background:linear-gradient(180deg,rgba(10,15,23,.97),rgba(10,15,23,.82));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .brand{min-width:0;flex:1}
+  .brand .ey{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase}
+  .brand h1{font-size:14.5px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .metrics{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  .metric{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+  .metric .pc{font-family:var(--mono);font-size:11px;font-weight:600}
+  .metric .pc span{color:var(--faint)} .metric .pc b{color:#5eead4} .metric .pc i{font-style:normal;color:#fb923c}
+  .pbar{width:74px;height:5px;background:var(--surface);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .pbar em{display:block;height:100%;width:0;border-radius:99px}
+  .pbar.a em{background:linear-gradient(90deg,#5eead4,#60a5fa)} .pbar.l em{background:linear-gradient(90deg,#fb923c,#f87171)}
+  @media(max-width:560px){.pbar{width:48px}.brand h1{font-size:12.5px}}
+  .rbtn{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;flex:0 0 auto}
+  .rbtn:hover{color:var(--ink);border-color:var(--muted)}
+  .intro{max-width:880px;margin:24px auto 6px;padding:0 20px}
+  .intro h2{font-size:clamp(21px,5vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.12}
+  .intro h2 .mono{display:block;font-family:var(--mono);font-weight:500;color:var(--muted);font-size:.5em;margin-top:7px}
+  .intro p{color:var(--muted);font-size:13.5px;margin-top:11px;max-width:66ch}
+  .intro p b{color:var(--ink)}
+  .intro .tip{margin-top:12px;font-size:12.5px;color:#5eead4;font-family:var(--mono);background:#5eead410;border:1px solid #5eead433;border-radius:9px;padding:9px 12px}
+  .road{max-width:880px;margin:28px auto 0;padding:0 20px;position:relative}
+  .layer{position:relative;display:grid;grid-template-columns:50px 1fr;column-gap:14px;padding-bottom:30px}
+  @media(max-width:560px){.layer{grid-template-columns:38px 1fr;column-gap:10px}}
+  .rail{position:relative}
+  .rail::before{content:"";position:absolute;left:24px;top:46px;bottom:-30px;width:2px;background:var(--lc);opacity:.28;transform:translateX(-50%)}
+  @media(max-width:560px){.rail::before{left:18px}}
+  .layer:last-child .rail::before{display:none}
+  .marker{position:relative;width:48px;height:48px}
+  @media(max-width:560px){.marker{width:36px;height:36px}}
+  .marker svg{position:absolute;inset:0;transform:rotate(-90deg)}
+  .marker .mc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--lc)}
+  @media(max-width:560px){.marker .mc{font-size:11px}}
+  .marker .wrench{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:var(--lc);display:none;align-items:center;justify-content:center;font-size:8px;border:2px solid var(--bg)}
+  .layer.lab-done .marker .wrench{display:flex}
+  .body{min-width:0;padding-top:2px}
+  .lhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:3px}
+  .lhead h3{font-size:17.5px;font-weight:600;letter-spacing:-.01em}
+  .lhead .lcount{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .lhead .plan-badge{font-family:var(--mono);font-size:9px;font-weight:600;color:#5eead4;border:1px solid #5eead455;border-radius:99px;padding:2px 8px}
+  .ldesc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-bottom:13px}
+  .cards{position:relative;display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px;padding-left:16px}
+  @media(max-width:560px){.cards{grid-template-columns:1fr;padding-left:13px}}
+  .cards::before{content:"";position:absolute;left:4px;top:4px;bottom:4px;width:2px;background:var(--lc);opacity:.22;border-radius:2px}
+  .card{position:relative;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--lc);border-radius:11px;padding:13px 14px;cursor:pointer;transition:transform .12s,border-color .15s,background .2s;overflow:hidden}
+  .card::before{content:"";position:absolute;left:-13px;top:24px;width:13px;height:2px;background:var(--lc);opacity:.3}
+  .card:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--lc) 45%,var(--line))}
+  .card.partial{background:color-mix(in srgb,var(--lc) 8%,var(--card))}
+  .card.done{background:color-mix(in srgb,var(--lc) 16%,var(--card));border-color:color-mix(in srgb,var(--lc) 45%,var(--line))}
+  .card.flash{animation:flash 1.1s ease}
+  @keyframes flash{0%,100%{box-shadow:0 0 0 0 transparent}30%{box-shadow:0 0 0 3px color-mix(in srgb,var(--lc) 50%,transparent)}}
+  .ctop{display:flex;align-items:flex-start;gap:9px}
+  .ctitle{flex:1;min-width:0}
+  .ctitle .t{font-size:14px;font-weight:600;line-height:1.25;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .ctitle .t .star{color:var(--gold);font-size:11px}
+  .ctitle .en{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:3px}
+  .cdot{flex:0 0 auto;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;margin-top:1px;transition:.18s}
+  .cdot svg{width:12px;height:12px;opacity:0;transform:scale(.5);transition:.18s;stroke:#0a0f17;stroke-width:3.4;fill:none}
+  .card.done .cdot{background:var(--lc);border-color:var(--lc)}.card.done .cdot svg{opacity:1;transform:scale(1)}
+  .card.partial .cdot{border-color:var(--lc)}.card.partial .cdot::after{content:"";width:9px;height:9px;border-radius:2px;background:var(--lc);opacity:.65}
+  .cprog{margin-top:11px;display:flex;align-items:center;gap:8px}
+  .cprog .pb{flex:1;height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+  .cprog .pb i{display:block;height:100%;width:0;background:var(--lc);transition:width .3s}
+  .cprog .pn{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  .lab{margin-top:14px;margin-left:16px;background:var(--term);border:1px solid var(--line);border-left:3px solid var(--lc);border-radius:11px;overflow:hidden}
+  @media(max-width:560px){.lab{margin-left:13px}}
+  .lab-head{display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer}
+  .lab-head .wr{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--lc);flex:0 0 auto}
+  .lab-head .tool{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lab-head .chev{color:var(--faint);transition:transform .2s;flex:0 0 auto}
+  .lab.open .lab-head .chev{transform:rotate(90deg)} .lab.dn .lab-head .wr::after{content:" ✓"}
+  .lab-detail{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .lab-in{padding:2px 13px 14px}
+  .lab-sec{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:13px 0 6px}
+  .cmds{background:#04070c;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:11px;color:#a5d6ff;overflow-x:auto;line-height:1.75;white-space:pre}
+  .cmds .cm{color:#5d6e85}
+  .lab-v{font-size:12.5px;color:var(--muted);line-height:1.55} .lab-v b{color:var(--ink)}
+  .lab-done{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
+  .lab-done .box{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;transition:.15s}
+  .lab-done .box svg{width:11px;height:11px;opacity:0;stroke:#0a0f17;stroke-width:3.6;fill:none}
+  .lab.dn .lab-done .box{background:var(--lc);border-color:var(--lc)} .lab.dn .lab-done .box svg{opacity:1} .lab.dn .lab-done{color:var(--ink)}
+  .panel{position:fixed;z-index:60;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(112%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .panel.open{transform:translateX(0)}
+  @media(min-width:721px){.panel{top:74px;right:16px;bottom:16px;width:390px;border-radius:16px}}
+  @media(max-width:720px){.panel{left:0;right:0;bottom:0;max-height:74vh;border-radius:18px 18px 0 0;transform:translateY(112%)}.panel.open{transform:translateY(0)}}
+  .ph{padding:18px;border-bottom:1px solid var(--line);position:relative;flex:0 0 auto}
+  .ph .grip{display:none}
+  @media(max-width:720px){.ph .grip{display:block;width:38px;height:4px;border-radius:99px;background:var(--line);margin:-4px auto 12px}}
+  .layerchip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 9px;border-radius:99px;margin-bottom:9px}
+  .ph h2{font-size:18.5px;font-weight:600;line-height:1.15;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ph h2 .star{color:var(--gold);font-size:13px}
+  .ph .en{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:3px}
+  .ph .one{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.55}
+  .pclose{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+  @media(max-width:720px){.pclose{top:18px}}
+  .pbody{overflow-y:auto;padding:16px 18px 24px}
+  .sec{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--lc);margin:16px 0 11px;display:flex;align-items:center;gap:8px}
+  .sec:first-child{margin-top:2px}
+  .sec::after{content:"";flex:1;height:1px;background:var(--line)}
+  .atoms{display:grid;gap:7px}
+  .atom{display:flex;gap:11px;align-items:flex-start;padding:9px 11px;background:var(--card);border:1px solid var(--line);border-radius:9px;cursor:pointer;transition:.15s}
+  .atom:hover{border-color:color-mix(in srgb,var(--lc) 45%,var(--line))}
+  .acheck{flex:0 0 auto;width:19px;height:19px;margin-top:1px;border-radius:6px;border:1.5px solid var(--faint);display:flex;align-items:center;justify-content:center;transition:.15s}
+  .acheck svg{width:11px;height:11px;opacity:0;transform:scale(.5);transition:.15s;stroke:#0a0f17;stroke-width:3.6;fill:none}
+  .atom.on .acheck{background:var(--lc);border-color:var(--lc)}.atom.on .acheck svg{opacity:1;transform:scale(1)}
+  .atom-t{font-size:13.5px;font-weight:500;line-height:1.4}
+  .atom.on .atom-t{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--faint)}
+  .atom-ex{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:3px;line-height:1.5}
+  .atom-ex code{color:#a5d6ff;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+  .why{font-size:13px;color:var(--muted);line-height:1.6}
+  .why b{color:var(--ink)}
+  .pass{font-size:13px;line-height:1.6;color:#5eead4;background:#5eead40d;border:1px solid #5eead430;border-radius:9px;padding:10px 12px}
+  .links{display:flex;flex-wrap:wrap;gap:7px}
+  .linkchip{font-size:12px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:5px 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:6px}
+  .linkchip:hover{border-color:var(--muted);color:#fff}
+  .linkchip .d{width:7px;height:7px;border-radius:50%}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .overlay.show{opacity:1;pointer-events:auto}
+  @media(min-width:721px){.overlay{display:none}}
+  footer{max-width:880px;margin:8px auto 0;padding:24px 20px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--faint)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><div class="ey">Education · ASIC Back-end · Synopsys Flow</div><h1>RTL-to-GDSII 실무 로드맵</h1></div>
+  <div class="metrics">
+    <div class="metric"><div class="pc">개념 <b id="doneN">0</b><span>/</span><span id="totalN">0</span></div><div class="pbar a"><em id="aFill"></em></div></div>
+    <div class="metric"><div class="pc">실습 <i id="labN">0</i><span>/10</span></div><div class="pbar l"><em id="lFill"></em></div></div>
+  </div>
+  <button class="rbtn" id="resetBtn">초기화</button>
+</div>
+<div class="intro">
+  <h2>개념 + 실무, 두 트랙으로<span class="mono">RISC-V SoC · Synopsys DC → ICC2 → PrimeTime → IC Validator</span></h2>
+  <p>카드(개념)는 "무엇을 이해하나", 🔧<b>실무 트랙</b>은 "어떤 툴에 무슨 명령을 치고 어떤 리포트를 보나". 시놉시스 상용 flow 기준이라 그대로 실무·면접에서 쓰입니다.</p>
+  <div class="tip">📘 L0는 <b>8단계 상세 공부 플랜</b>으로 펼쳐집니다. 카드를 누르면 할 일·공부법·✅통과 기준·<b>→ 이후 활용처</b>가 나와요. 활용처 칩을 누르면 그 개념이 쓰이는 뒤쪽 단계로 점프합니다.</div>
+</div>
+<div class="road" id="road"></div>
+<footer>BOTTOM-UP · L0 → L9 · 손으로 풀고 직접 짜면, 그게 포트폴리오입니다.</footer>
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="panel"><div class="ph"><div class="grip"></div><button class="pclose" id="pclose">✕</button><div id="phContent"></div></div><div class="pbody" id="pbody"></div></div>
+
+<script>
+const STORAGE_KEY='asic-roadmap-pro-v2';
+const LAYER_META=[
+ {code:'L0',name:'디지털·반도체 기초',color:'#5eead4',desc:'공부 플랜 0.1 → 0.8 · 순서가 곧 의존성',plan:true,
+  lab:{tool:'Linux 셸 + Tcl (모든 Synopsys 툴의 공통 언어)',cmds:[['# Tcl — DC/ICC2/PT가 전부 Tcl로 구동','cm'],['tclsh',''],['set period 1.0 ; puts "freq=[expr 1.0/$period]GHz"',''],['source ./scripts/setup.tcl','']],report:'—',deliver:'<b>Tcl 기본 + Linux 셸</b>, .synopsys_dc.setup 구조 이해',resource:'Weste & Harris · Tcl 기초'}},
+ {code:'L1',name:'RTL·HDL·SoC',color:'#60a5fa',desc:'공부 플랜 1.1 → 1.9 · RTL을 합성 가능하게 + 검증',plan:true,lab:{tool:'VCS (시뮬레이션) + SpyGlass (lint)',cmds:[['# RTL 검증 후 합성으로','cm'],['vcs -sverilog -debug_access+all rtl.v tb.v',''],['./simv','  # 파형은 Verdi'],['spyglass -project lint.prj','']],report:'시뮬 파형(Verdi), lint 위반',deliver:'<b>RISC-V 코어 RTL이 testbench 통과</b> + lint clean',resource:'PicoRV32 repo · HDLBits'}},
+ {code:'L2',name:'라이브러리·입력 파일',color:'#a78bfa',desc:'공부 플랜 2.1 → 2.8 · flow 입력을 직접 준비',plan:true,lab:{tool:'Library Compiler (lc_shell) + NDM 빌드',cmds:[['# .lib→.db (DC), NDM (ICC2)','cm'],['lc_shell> read_lib std.lib ; write_lib -format db',''],['set target_library std.db ; set link_library "* std.db"',''],['create_clock -period 1.0 [get_ports clk]','  # 첫 SDC']],report:'.db / NDM ref lib 빌드 로그',deliver:'<b>.lib→.db, ICC2용 NDM, 첫 SDC</b>',resource:'파운드리 라이브러리 매뉴얼 · SDC 가이드'}},
+ {code:'L3',name:'Synthesis (논리 합성)',color:'#f472b6',desc:'공부 플랜 3.1 → 3.8 · dc_shell로 RTL→netlist',plan:true,lab:{tool:'Design Compiler (dc_shell) — 또는 Fusion Compiler',cmds:[['read_verilog rtl.v ; current_design top ; link',''],['read_sdc constraints.sdc',''],['compile_ultra -gate_clock',''],['report_qor ; report_timing -max_paths 10 ; report_area',''],['write -format verilog -hierarchy -output netlist.v ; write_sdc top.sdc','']],report:'<b>report_qor</b> (WNS/TNS/area), report_timing',deliver:'gate netlist + SDC + QoR · <b>Formality로 등가검증(LEC)</b>',resource:'Synopsys DC User Guide (SolvNetPlus)'}},
+ {code:'L4',name:'Floorplan (평면 계획)',color:'#fb923c',desc:'공부 플랜 4.1 → 4.8 · ICC2로 칩 평면 잡기',plan:true,lab:{tool:'IC Compiler II (icc2_shell)',cmds:[['read_verilog netlist.v ; link_block',''],['initialize_floorplan -core_utilization 0.7 -core_offset 5',''],['place_pins -self','  # I/O 핀'],['compile_pg','  # Power Plan(PDN)']],report:'report_utilization, PG 연결 확인',deliver:'<b>floorplan + Power Plan(PDN)</b>',resource:'ICC2 Floorplanning / PDN 가이드'}},
+ {code:'L5',name:'Placement (셀 배치)',color:'#fbbf24',desc:'공부 플랜 5.1 → 5.7 · ICC2 배치 + Congestion Analysis',plan:true,lab:{tool:'IC Compiler II',cmds:[['place_opt','  # 타이밍 기반 배치+최적화'],['report_congestion','  # ★ Congestion Analysis'],['report_timing ; report_qor','']],report:'<b>report_congestion</b> (overflow), 배치 후 timing',deliver:'placed design + <b>congestion 분석</b>',resource:'ICC2 Placement 가이드'}},
+ {code:'L6',name:'CTS (클럭 트리)',color:'#34d399',desc:'공부 플랜 6.1 → 6.6 · ICC2로 클럭 트리',plan:true,lab:{tool:'IC Compiler II',cmds:[['clock_opt','  # 클럭 트리 합성+최적화'],['report_clock_timing -type skew',''],['report_clock_tree -summary','']],report:'skew / insertion delay 리포트',deliver:'<b>clock tree + skew·latency 리포트</b>',resource:'ICC2 CTS 가이드'}},
+ {code:'L7',name:'Routing (배선)',color:'#22d3ee',desc:'공부 플랜 7.1 → 7.6 · ICC2로 배선',plan:true,lab:{tool:'IC Compiler II',cmds:[['route_auto','  # 또는 route_opt'],['check_routes','  # open/short/DRC'],['report_design -physical','']],report:'check_routes, 라우팅 후 timing',deliver:'<b>routed design (초기 DRC clean)</b>',resource:'ICC2 Routing 가이드'}},
+ {code:'L8',name:'STA · Timing Closure',color:'#f87171',desc:'공부 플랜 8.1 → 8.8 · PrimeTime STA & Closure',plan:true,lab:{tool:'StarRC (기생 추출) → PrimeTime',cmds:[['# StarRC로 SPEF 추출 후 PT로','cm'],['pt_shell> read_verilog netlist.v ; link',''],['read_parasitics design.spef ; read_sdc top.sdc',''],['report_timing -delay max ; report_timing -delay min',''],['report_constraint -all_violators','']],report:'<b>PrimeTime setup/hold, WNS/TNS</b> — 코너별(MMMC)',deliver:'<b>signoff timing — 전 코너 closure</b> (= Timing Report)',resource:'Bhasker & Chadha, <b>STA for Nanometer Designs</b>'}},
+ {code:'L9',name:'Signoff · GDSII',color:'#fde047',desc:'공부 플랜 9.1 → 9.7 · 물리 signoff & tape-out',plan:true,lab:{tool:'IC Validator (DRC/LVS) + Formality + PrimePower',cmds:[['icv -i layout.gds runset.rs','  # DRC'],['# LVS: layout ↔ netlist','cm'],['# PrimePower: 전력/IR, Formality: 최종 LEC','cm'],['write_gds final.gds','  # stream out']],report:'DRC/LVS clean, PrimePower 전력(PPA의 P)',deliver:'<b>DRC·LVS clean + GDSII</b> (= Final Layout)',resource:'IC Validator / Formality 가이드'}},
+];
+
+// L0 = study plan (plan nodes). subs = 할 일(체크). uses = 이후 활용처(뒤 레이어 카드로 점프).
+const L0=[
+ {plan:true,t:'0.1 수 표현',est:'½~1일',one:'number representation',method:'변환은 종이에 각 5문제씩. 계산기로 채점. 2의 보수는 +5 → −5를 비트로 직접 만들어 보기.',pass:"0xA3을 2진수·10진수로 즉답하고, −5의 8비트 2의 보수를 즉답.",resource:'nandgame · Morris Mano 1장',
+  subs:[
+   {t:'2진수 → 10진수 (자리값 더하기)',ex:'1101 = 8+4+0+1 = 13 · 5문제'},
+   {t:'10진수 → 2진수 (2로 나눠 나머지)',ex:'13 → 1101 · 5문제'},
+   {t:'16진수 ↔ 2진수 (4비트씩 묶기)',ex:'0xA3 = 1010 0011'},
+   {t:'비트 / 니블 / 바이트 / 워드 용어',ex:'4bit=니블, 8bit=1byte'},
+   {t:'비트 폭(width) 개념',ex:'8비트면 0~255 표현 가능'},
+   {t:'2의 보수 만들기 (반전 후 +1)',ex:'00000101(+5) → 11111011(−5)'},
+   {t:'MSB / LSB / sign bit',ex:'맨 위 비트가 부호'},
+   {t:'overflow 감 잡기',ex:'8비트에 256은 못 담음'}],
+  uses:[
+   {to:'1_7',label:'L1 SoC',note:'데이터 버스·주소 폭(예: 32비트)을 정할 때 이 비트 폭 개념을 그대로 씀'},
+   {to:'8_0',label:'L8 STA',note:'report_timing·파형의 신호 값을 16진수로 읽어 디버깅할 때 필요'},
+   {to:'2_1',label:'L2 .lib',note:'셀의 딜레이 표·핀 값을 읽는 기본이 수 표현'}]},
+ {plan:true,t:'0.2 불대수 & 게이트',est:'1~1.5일',one:'boolean & gates',method:'nandgame로 NAND부터 손으로 쌓기. K-map 5문제 풀이. NAND만으로 NOT/AND/OR/XOR 직접 그려보기.',pass:'임의 진리표 → K-map → 최소식 → 게이트 회로도까지 혼자 완주.',resource:'nandgame · From Nand to Tetris',
+  subs:[
+   {t:'AND / OR / NOT 진리표 채우기',ex:'표를 직접 손으로'},
+   {t:'NAND / NOR / XOR / XNOR 진리표',ex:'XOR = 다르면 1'},
+   {t:'불 대수 기본 법칙 (교환·결합·분배)',ex:'A·(B+C)=A·B+A·C'},
+   {t:'드모르간 2개',ex:'¬(A·B)=¬A+¬B'},
+   {t:'게이트 회로도 → 불식으로 옮기기',ex:'회로 보고 식 쓰기'},
+   {t:'불식 → 게이트 회로도 그리기',ex:'식 보고 회로 그리기'},
+   {t:'K-map 2변수·3변수 작성',ex:'3변수 5문제'},
+   {t:'K-map으로 항 묶어 최소화',ex:'1을 묶어 식 줄이기'},
+   {t:'NAND만으로 NOT/AND/OR/XOR 구현',ex:'직접 그려보기'}],
+  uses:[
+   {to:'3_0',label:'L3 논리 합성',note:'합성이 RTL을 바로 이 게이트 식으로 바꾸고 불 대수로 최소화함 — 0.2가 합성의 본질'},
+   {to:'3_4',label:'L3 tech mapping',note:'최소화한 논리를 실제 셀로 매핑할 때 universal gate 개념이 그대로 쓰임'},
+   {to:'1_4',label:'L1 netlist',note:'합성 결과 netlist를 읽으려면 게이트를 알아야 함'},
+   {to:'9_4',label:'L9 LVS',note:'레이아웃이 이 논리와 같은지 대조하는 검사'}]},
+ {plan:true,t:'0.3 조합 회로 블록',est:'1.5~2일',one:'combinational blocks',method:'각 블록을 게이트도로 1회, 그다음 Verilog로 직접 작성해 EDA Playground에서 시뮬·파형 확인.',pass:'4-bit full adder를 Verilog로 짜고 파형으로 합을 확인.',resource:'HDLBits · EDA Playground',
+  subs:[
+   {t:'2:1 MUX 진리표 + 게이트도',ex:'sel로 a/b 고르기'},
+   {t:'4:1 MUX',ex:'2비트 sel'},
+   {t:'Decoder / Encoder',ex:'2-to-4 디코더'},
+   {t:'Half Adder (sum=XOR, carry=AND)',ex:'직접 유도'},
+   {t:'Full Adder (carry-in 포함)',ex:'진리표에서 식 도출'},
+   {t:'4-bit ripple-carry adder',ex:'FA 4개 체인'},
+   {t:'Comparator (a==b, a>b)',ex:''},
+   {t:'ALU가 뭔지 감 (연산 묶음)',ex:''},
+   {t:'Verilog로 2:1 mux 작성·시뮬',ex:'assign 사용'},
+   {t:'Verilog로 4-bit full adder 작성·시뮬',ex:'파형 확인'},
+   {t:'"긴 조합 체인 = 느린 경로" 인지',ex:'ripple carry가 느린 이유'}],
+  uses:[
+   {to:'1_0',label:'L1 RTL',note:'datapath(연산부)가 바로 이 조합 블록들의 조합 — RTL로 짤 대상'},
+   {to:'8_2',label:'L8 Timing Path',note:'STA가 잡는 critical path는 대개 adder 같은 긴 조합 체인'},
+   {to:'8_6',label:'L8 Timing Closure',note:'느린 조합 경로를 어떻게 줄일지가 closure의 핵심 작업'}]},
+ {plan:true,t:'0.4 순차 회로',est:'1.5~2일',one:'sequential',method:'D-FF 타이밍 다이어그램을 직접 그리고, counter·FSM을 Verilog로 작성해 시뮬.',pass:'always@(posedge clk)로 counter와 FSM을 짜고 파형으로 검증.',resource:'HDLBits (sequential)',
+  subs:[
+   {t:'Latch(레벨 감지) vs FF(엣지 감지)',ex:'차이 한 줄로 정리'},
+   {t:'D-FF 동작 (clk↑에 D→Q)',ex:'언제 값을 잡나'},
+   {t:'D-FF 타이밍 다이어그램 직접 그리기',ex:'clk/D/Q 파형'},
+   {t:'Register (FF 여러 개 묶음)',ex:'8비트 레지스터'},
+   {t:'Shift register',ex:'값이 한 칸씩 이동'},
+   {t:'Counter (up / down)',ex:'4비트 up 카운터'},
+   {t:'FSM 개념 (상태·전이·출력)',ex:'상태도 그리기'},
+   {t:'Moore vs Mealy 차이',ex:'출력이 입력에 의존?'},
+   {t:'Verilog로 4-bit counter 작성·시뮬',ex:'always@(posedge clk)'},
+   {t:'Verilog로 간단 FSM(신호등) 작성·시뮬',ex:'case문'}],
+  uses:[
+   {to:'8_2',label:'L8 Timing Path',note:'모든 타이밍 경로의 양 끝(launch/capture)이 바로 이 FF — 0.4 없이는 L8 불가'},
+   {to:'8_3',label:'L8 Setup/Hold',note:'FF 사이 경로를 setup/hold로 검사하는 게 STA'},
+   {to:'6_0',label:'L6 CTS',note:'이 FF들에 클럭을 고르게 분배하는 작업이 CTS'},
+   {to:'1_3',label:'L1 제어로직',note:'FSM이 SoC의 컨트롤러 역할'}]},
+ {plan:true,t:'0.5 타이밍 기초',est:'3~4일',star:true,one:'★ 백엔드의 심장',method:'setup·hold 부등식 두 개를 그림으로 직접 유도. 숫자를 넣어 slack을 5번 손계산하되 통과/위반을 섞어서.',pass:'임의 숫자로 setup·hold slack을 손으로 계산하고 통과/위반을 판정.',resource:'Weste & Harris 타이밍 장 · Bhasker & Chadha 초반',
+  subs:[
+   {t:'clock = 박자, 주기 T = 1/f',ex:'1GHz → 1ns'},
+   {t:'rising / falling edge',ex:'보통 posedge 기준'},
+   {t:'Tcq = clk→Q 지연',ex:'FF가 값을 내보내는 시간'},
+   {t:'Tcomb = 조합 로직 지연',ex:'경로 위 게이트 지연 합'},
+   {t:'timing path = launch FF → 로직 → capture FF',ex:'그림으로 그리기'},
+   {t:'setup time Tsu (clk 전 안정)',ex:'capture FF가 요구'},
+   {t:'hold time Th (clk 후 유지)',ex:'capture FF가 요구'},
+   {t:'setup 부등식',ex:'Tclk ≥ Tcq + Tcomb + Tsu'},
+   {t:'setup 부등식 직접 유도',ex:'다음 clk 전 도착해야'},
+   {t:'hold 부등식',ex:'Tcq + Tcomb ≥ Th'},
+   {t:'hold 부등식 직접 유도',ex:'같은 clk에 덮어쓰지 않게'},
+   {t:'요구시간 vs 도착시간',ex:'required vs arrival'},
+   {t:'slack = 요구 − 도착',ex:'≥0 통과, <0 위반'},
+   {t:'slack 손계산 ① 통과',ex:'1.0,0.1,0.7,0.1 → +0.1'},
+   {t:'slack 손계산 ② 위반 만들기',ex:'Tcomb 0.95 → −0.05'},
+   {t:'setup=max delay, hold=min delay',ex:'두 방향 모두 검사'},
+   {t:'metastability 감',ex:'위반 시 출력이 불안정'}],
+  uses:[
+   {to:'8_4',label:'L8 Slack/WNS/TNS',note:'★ 네가 손으로 푼 slack이 그대로 report_timing의 숫자가 됨. WNS=가장 음수, TNS=음수들의 합'},
+   {to:'8_3',label:'L8 Setup/Hold 분석',note:'네가 배운 두 부등식이 그대로 setup(max)·hold(min) 두 분석이 됨'},
+   {to:'8_6',label:'L8 Timing Closure',note:'모든 경로 slack≥0 만들기 = 백엔드의 핵심 작업이자 우리 팀 목표'},
+   {to:'6_1',label:'L6 Clock Skew',note:'skew가 부등식의 요구/도착 시간을 바꿔 마진을 깎음'},
+   {to:'2_5',label:'L2 SDC',note:'create_clock -period가 바로 이 Tclk를 선언하는 명령'},
+   {to:'3_3',label:'L3 제약',note:'합성이 이 주기를 목표로 회로를 최적화'}]},
+ {plan:true,t:'0.6 CMOS & 트랜지스터',est:'1.5~2일',one:'physical foundation',method:'인버터·NAND2를 트랜지스터로 직접 그리기. "부하↑ → 지연↑ → 더 센 셀 필요" 직관을 확실히.',pass:'NAND2 트랜지스터도를 그리고 부하-지연-드라이브 관계를 말로 설명.',resource:'Weste & Harris 1~4장',
+  subs:[
+   {t:'트랜지스터 = 전압으로 켜고 끄는 스위치',ex:'수도꼭지 비유'},
+   {t:'NMOS (0을 잘 전달, gate=1에 켜짐)',ex:''},
+   {t:'PMOS (1을 잘 전달, gate=0에 켜짐)',ex:''},
+   {t:'pull-down network (NMOS, 출력→0)',ex:''},
+   {t:'pull-up network (PMOS, 출력→1)',ex:''},
+   {t:'CMOS 인버터 트랜지스터도',ex:'직접 그리기'},
+   {t:'NAND2 트랜지스터 구성',ex:'직접 그리기'},
+   {t:'NOR2 트랜지스터 구성',ex:''},
+   {t:'load capacitance(부하) 개념',ex:'다음 셀+배선이 부하'},
+   {t:'지연 ∝ 부하 / 드라이브',ex:'부하 크면 느려짐'},
+   {t:'drive 키우면 빨라짐(면적·전력↑)',ex:'X1 → X4'},
+   {t:'dynamic power (스위칭 시)',ex:'토글할 때 소모'},
+   {t:'static / leakage power',ex:'가만히 있어도 샘'}],
+  uses:[
+   {to:'2_1',label:'L2 .lib',note:'셀의 delay/power 표가 바로 이 부하-지연 관계를 측정해 적어둔 것'},
+   {to:'3_4',label:'L3 셀 선택',note:'부하가 큰 곳에 X4 같은 센 셀을 고르는 판단 근거'},
+   {to:'8_6',label:'L8 timing fix',note:'느린 경로의 셀을 더 센 셀로 교체(업사이징)해 위반 잡기'},
+   {to:'9_1',label:'L9 Power',note:'dynamic/static power = PPA의 P, 여기서 분석'},
+   {to:'5_0',label:'L5 배치',note:'셀 간 거리 = 배선 = 부하 → 배치가 지연에 직접 영향'}]},
+ {plan:true,t:'0.7 표준셀 & 라이브러리',est:'1~1.5일',one:'standard cell view',method:'.lib 일부나 셀 데이터시트를 실제로 열어 구조를 훑기. X1 vs X4, LVT vs HVT 차이를 표로 정리.',pass:'drive strength와 Vt가 각각 무엇을 trade-off 하는지 즉답.',resource:'표준셀 데이터시트 · .lib 문서',
+  subs:[
+   {t:'standard cell = 검증된 게이트 블록',ex:'INV / NAND / DFF'},
+   {t:'셀 높이 일정 → row(행)에 정렬',ex:'키가 같아야 줄 맞춤'},
+   {t:'셀 폭은 기능·드라이브에 따라 다름',ex:''},
+   {t:'drive strength X1 / X2 / X4',ex:'숫자 클수록 셈'},
+   {t:'Vt: LVT(빠름·누설↑) / RVT / HVT(느림·누설↓)',ex:'속도-누설 trade-off'},
+   {t:'.lib가 담는 것: delay / power / 제약',ex:'셀별 표'},
+   {t:'characterization: delay = f(slew, load)',ex:'NLDM 2D 표'},
+   {t:'slew(transition) 개념',ex:'신호가 변하는 속도'},
+   {t:'.lib 일부를 실제로 열어보기',ex:'구조만 훑기'}],
+  uses:[
+   {to:'2_1',label:'L2 .lib',note:'이 라이브러리가 합성·STA의 모든 타이밍/전력 계산의 근거'},
+   {to:'2_3',label:'L2 .lef/NDM',note:'셀 크기·핀 위치가 배치/배선의 입력'},
+   {to:'3_4',label:'L3 tech mapping',note:'느린 곳엔 LVT/X4, 면적 중요한 곳엔 HVT/X1로 선택'},
+   {to:'5_0',label:'L5 placement',note:'높이가 같은 셀들을 row에 정렬해 배치'},
+   {to:'8_6',label:'L8 closure',note:'셀을 교체(다른 drive/Vt)해 타이밍을 잡음'},
+   {to:'9_1',label:'L9 power',note:'Vt 선택이 누설 전력을 좌우'}]},
+ {plan:true,t:'0.8 추상화 + 도구 환경',est:'1.5~2일',one:'meta',method:'Tcl로 주기↔주파수 변환 스크립트를 직접 작성·실행. counter.v + testbench를 시뮬레이터로 끝까지.',pass:'Tcl 스크립트 실행 + Verilog 시뮬을 처음부터 끝까지 혼자.',resource:'tutorialspoint Tcl · 리눅스 기본',
+  subs:[
+   {t:'추상화 사다리 6단',ex:'Tr→Gate→Cell→RTL→Netlist→Layout'},
+   {t:'Linux: cd / ls / pwd / cp / mv',ex:'파일 다루기'},
+   {t:'Linux: grep / less / vi',ex:'로그 검색·편집'},
+   {t:'환경변수 / PATH / source',ex:'셋업 스크립트 이해'},
+   {t:'Tcl: set / puts (변수·출력)',ex:'set x 1'},
+   {t:'Tcl: 리스트 / foreach (반복)',ex:''},
+   {t:'Tcl: if / expr (조건·계산)',ex:''},
+   {t:'Tcl: proc (함수 만들기)',ex:'재사용'},
+   {t:'Tcl: source로 스크립트 실행',ex:'source run.tcl'},
+   {t:'Tcl 10줄 스크립트 작성',ex:'주기↔주파수 변환 출력'},
+   {t:'Verilog 시뮬 1회 완주 (작성→컴파일→파형)',ex:'counter + tb'}],
+  uses:[
+   {to:'3_0',label:'L3~L9 전부',note:'DC/ICC2/PrimeTime의 모든 명령이 Tcl. 셋업·실행이 전부 Tcl 스크립트라 이게 안 되면 어느 단계도 못 넘어감'},
+   {to:'1_5',label:'L1 Verilog 시뮬',note:'RTL 검증의 기본 동작이 이 시뮬 흐름'},
+   {to:'8_4',label:'L8 리포트',note:'Tcl로 report_timing을 돌리고 결과를 읽어 디버깅'}]},
+];
+
+const L1=[
+ {plan:true,t:'1.1 Verilog 구조 기초',est:'1~1.5일',one:'module & nets',method:'작은 모듈 2~3개를 직접 선언하고 top에서 인스턴스화. 비트 벡터·리터럴을 손에 익히기.',pass:'서브모듈 2개를 만들어 top 모듈에서 연결(인스턴스화)하기.',resource:'HDLBits (Basics/Vectors) · ASIC World Verilog',
+  subs:[
+   {t:'module / endmodule, 포트 선언',ex:'input/output/inout'},
+   {t:'wire vs reg (net vs 변수) 구분',ex:'언제 reg를 쓰나'},
+   {t:'비트 벡터 [N-1:0], 버스',ex:'wire [7:0] data'},
+   {t:'숫자 리터럴',ex:"4'b1010, 8'hFF, 32'd10"},
+   {t:'연결/복제 연산 {a,b}',ex:'비트 합치기'},
+   {t:'모듈 인스턴스화 (계층 구조)',ex:'sub u0(.a(x),.b(y))'},
+   {t:'명명 규칙·주석 습관',ex:''}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'합성기가 먹는 입력이 바로 이 모듈/포트 구조 — 깔끔해야 합성도 깔끔'},
+   {to:'9_4',label:'L9 LVS',note:'계층·포트 이름이 netlist↔layout 대조의 기준이 됨'}]},
+ {plan:true,t:'1.2 조합 논리 기술',est:'1.5일',one:'combinational RTL',method:'mux/decoder/간단 ALU를 assign과 always_comb 두 방식으로 작성. latch 경고가 안 뜨게 모든 분기를 대입.',pass:'4:1 mux를 두 방식으로 작성하고 latch 경고 없이 시뮬.',resource:'HDLBits (Combinational)',
+  subs:[
+   {t:'assign 연속 할당',ex:'assign y = a & b'},
+   {t:'연산자: 논리/비트/산술/관계/시프트',ex:'&& vs &, <<'},
+   {t:'삼항 연산자 ?:',ex:'y = sel ? a : b'},
+   {t:'always @(*) / always_comb',ex:'조합 블록'},
+   {t:'if-else / case (조합)',ex:''},
+   {t:'★ 의도치 않은 latch 피하기',ex:'모든 분기에서 대입/기본값'},
+   {t:'0.3 조합블록을 RTL로 재작성',ex:'mux·adder'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'이 조합 RTL이 게이트(AND/OR…)로 변환됨 — 0.2/0.3이 여기서 코드가 됨'},
+   {to:'8_2',label:'L8 Timing Path',note:'조합 로직이 곧 경로의 Tcomb, critical path의 본체'}]},
+ {plan:true,t:'1.3 순차 논리 기술',est:'1.5~2일',one:'sequential RTL',method:'counter·레지스터를 always_ff로 작성. non-blocking(<=)과 blocking(=)의 차이를 직접 실험해 눈으로 확인.',pass:'NBA로 파이프라인 레지스터를 짜고, reset 동작을 파형으로 확인.',resource:'HDLBits (Sequential)',
+  subs:[
+   {t:'always @(posedge clk) / always_ff',ex:'클럭 동기 블록'},
+   {t:'★ non-blocking(<=) vs blocking(=)',ex:'순차엔 NBA, 조합엔 BA'},
+   {t:'동기 리셋 vs 비동기 리셋',ex:'if(rst) ...'},
+   {t:'레지스터 / 카운터 / 시프트 레지스터 코딩',ex:''},
+   {t:'파이프라인 레지스터 개념',ex:'단을 나눠 끊기'},
+   {t:'0.4 순차회로를 RTL로 재작성',ex:'counter/FF'}],
+  uses:[
+   {to:'8_2',label:'L8 Timing Path',note:'여기서 만든 FF가 모든 타이밍 경로의 launch/capture 지점'},
+   {to:'8_3',label:'L8 Setup/Hold',note:'FF 사이 경로를 setup/hold로 검사 — 0.5 부등식이 적용되는 대상'},
+   {to:'6_0',label:'L6 CTS',note:'이 FF들에 클럭을 분배하는 게 CTS'}]},
+ {plan:true,t:'1.4 FSM 코딩 패턴',est:'1~1.5일',one:'finite state machine',method:'상태 레지스터 / next-state 논리 / 출력 논리를 분리하는 3-always 패턴으로 작성.',pass:'신호등 또는 간단 프로토콜 FSM을 3-always로 작성·시뮬.',resource:'HDLBits (FSM) · ASIC World FSM',
+  subs:[
+   {t:'상태 인코딩 (binary / one-hot)',ex:''},
+   {t:'2-always / 3-always 패턴',ex:'state/next/out 분리'},
+   {t:'상태 레지스터 (순차) 작성',ex:'always_ff'},
+   {t:'next-state 논리 (조합) 작성',ex:'case(state)'},
+   {t:'출력 논리 (Moore/Mealy)',ex:''},
+   {t:'0.4 FSM을 코드 패턴으로',ex:''}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'FSM이 상태 FF + 조합 논리로 합성됨'},
+   {to:'8_6',label:'L8 Timing Closure',note:'복잡한 FSM의 next-state 논리가 종종 critical path가 됨'}]},
+ {plan:true,t:'1.5 합성 가능한 RTL 규칙',est:'1~1.5일',star:true,one:'synthesizable subset',method:'본인이 짠 코드에서 비합성 구문을 걷어내고, "이 코드가 어떤 게이트/FF로 변할지" 머릿속으로 그려보기.',pass:'lint clean + 내 RTL이 게이트로 어떻게 변할지 설명 가능.',resource:'Synopsys 합성 코딩 가이드 · SpyGlass lint',
+  subs:[
+   {t:'합성 OK: assign, always@(posedge), case',ex:''},
+   {t:'합성 X: initial, #delay, $display, force',ex:'시뮬 전용'},
+   {t:'sensitivity list 올바르게',ex:'조합엔 @(*)'},
+   {t:'★ 의도치 않은 latch 방지',ex:'기본값/모든 분기'},
+   {t:'parameter / localparam로 재사용',ex:'폭·상수 파라미터화'},
+   {t:'for + generate (반복 구조)',ex:'배열형 하드웨어'},
+   {t:'피해야 할 합성 비친화 패턴',ex:'다중 드라이버 등'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'★ 이 규칙을 어기면 합성이 막히거나 엉뚱한 회로가 됨 — L3의 입장권'},
+   {to:'3_5',label:'L3 합성 STA',note:'합성 친화 코드라야 타이밍 최적화도 잘 먹음'}]},
+ {plan:true,t:'1.6 테스트벤치 & 시뮬레이션',est:'2일',one:'verification',method:'counter/FSM에 testbench를 붙여 클럭·리셋·자극을 주고, 기대값과 실제값을 비교하는 self-checking으로 PASS/FAIL 출력.',pass:'self-checking TB로 PASS/FAIL을 자동 출력하고 파형으로 확인.',resource:'EDA Playground · ASIC World Testbench · GTKWave',
+  subs:[
+   {t:'TB 구조: 클럭 생성 / 리셋 / 자극',ex:'always #5 clk=~clk'},
+   {t:'TB에선 initial/always OK',ex:'합성 안 함'},
+   {t:'$display / $monitor / $finish',ex:'값 출력'},
+   {t:'$dumpvars로 파형 덤프',ex:'VCD/FSDB'},
+   {t:'self-checking (expected vs actual)',ex:'if(out!==exp) $error'},
+   {t:'assertion 맛보기 (assert)',ex:''},
+   {t:'시뮬레이터 1회 완주',ex:'VCS 또는 iverilog'},
+   {t:'파형 뷰어로 디버깅',ex:'GTKWave/Verdi'}],
+  uses:[
+   {to:'3_4',label:'L3 netlist',note:'같은 TB로 합성 후 gate-level 시뮬도 돌려 RTL과 일치 확인'},
+   {to:'9_3',label:'L9 검증',note:'설계가 의도대로 동작하는지의 최종 신뢰가 여기서 시작'}]},
+ {plan:true,t:'1.7 RISC-V & ISA (우리 코어)',est:'2~3일',star:true,one:'RISC-V core',method:'RV32I 명령 몇 개를 손으로 디코드. 오픈소스 코어(picorv32 등)를 받아 구조를 파악하고 시뮬 1회.',pass:'RV32I 명령 포맷을 읽고, 오픈 코어를 받아 시뮬로 동작 확인.',resource:'RISC-V Spec(RV32I) · picorv32 repo · riscv-mini',
+  subs:[
+   {t:'ISA = 명령어 집합 약속',ex:''},
+   {t:'RV32I 기본 명령',ex:'add/sub/lw/sw/beq/jal'},
+   {t:'레지스터 파일 x0~x31 (x0=0)',ex:'32개 32비트'},
+   {t:'명령어 포맷 R/I/S/B/U/J',ex:'비트 필드 나눔'},
+   {t:'fetch → decode → execute 흐름',ex:'기본 동작 사이클'},
+   {t:'메모리/로드스토어 개념',ex:'lw/sw'},
+   {t:'왜 RISC-V (오픈·모듈러·무료)',ex:''},
+   {t:'오픈 코어 받아 빌드·시뮬',ex:'picorv32 등'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'★ 이 코어가 우리가 합성·구현할 핵심 설계(DUT) 그 자체'},
+   {to:'4_0',label:'L4 Floorplan',note:'코어가 칩 위에 배치될 가장 큰 논리 블록'},
+   {to:'8_6',label:'L8 Timing Closure',note:'코어의 critical path(보통 ALU/decode)를 닫는 게 목표'}]},
+ {plan:true,t:'1.8 SoC 통합 & 버스',est:'2~3일',star:true,one:'SoC integration',method:'코어 + RAM + 간단 주변장치(GPIO)를 top에서 연결하고, 작은 프로그램이 메모리에서 실행되는 걸 시뮬로 확인.',pass:'코어가 메모리의 명령을 읽어 GPIO를 토글하는 동작을 시뮬로 확인.',resource:'간단 SoC 예제 · AMBA AXI/AHB 기초',
+  subs:[
+   {t:'SoC = CPU + 버스 + 메모리 + 주변장치',ex:'GPIO/UART/timer'},
+   {t:'메모리맵 (주소 영역 할당)',ex:'0x0000 RAM, 0x8000 GPIO'},
+   {t:'버스 프로토콜 기초',ex:'AXI/AHB/간단 메모리 IF'},
+   {t:'top 통합 (코어+메모리+주변)',ex:'블록 연결'},
+   {t:'클럭/리셋 분배',ex:'top에서 배선'},
+   {t:'작은 프로그램(hex) 메모리에 로드',ex:'$readmemh'}],
+  uses:[
+   {to:'4_0',label:'L4 Floorplan',note:'★ 이 SoC의 블록들(코어·RAM·IO)을 칩 위에 배치하는 게 L4'},
+   {to:'4_4',label:'L4 Macro 배치',note:'RAM 같은 메모리는 매크로로 수동 배치'},
+   {to:'3_0',label:'L3 합성',note:'전체 top SoC가 합성 대상'}]},
+ {plan:true,t:'1.9 코드 품질 · Lint · CDC',est:'1일',one:'quality & CDC',method:'SpyGlass로 lint를 돌려 위반을 정리하고, 클럭 도메인이 둘 이상이면 2-FF 동기화를 적용.',pass:'lint clean + CDC에서 동기화가 필요한 지점 파악.',resource:'SpyGlass Lint/CDC 가이드',
+  subs:[
+   {t:'lint 위반 읽고 고치기',ex:'폭 불일치·미사용 신호'},
+   {t:'CDC(클럭 도메인 교차) 개념',ex:'서로 다른 클럭'},
+   {t:'2-FF synchronizer',ex:'메타안정 완화'},
+   {t:'coding/naming convention',ex:'팀 일관성'}],
+  uses:[
+   {to:'6_0',label:'L6 CTS',note:'멀티 클럭이면 CTS/타이밍에서 도메인별로 다뤄야 함'},
+   {to:'8_0',label:'L8 STA',note:'CDC·false path를 알아야 STA에서 올바른 제약을 줌'}]},
+];
+
+const L2=[
+ {plan:true,t:'2.1 PDK & 공정 개념',est:'1일',one:'process design kit',method:'우리 랩이 쓰는 PDK가 무엇이고 어떤 파일들이 제공되는지 조교/교수에게 확인해 목록화. "어느 파일이 어느 단계에 쓰이나" 지도 그리기.',pass:'우리 PDK 이름과 핵심 파일(.lib/.lef/tech/SDC 템플릿) 위치를 안다.',resource:'파운드리/랩 PDK 매뉴얼',
+  subs:[
+   {t:'PDK = 파운드리가 주는 공정 키트',ex:''},
+   {t:'공정 노드 의미',ex:'예: 28nm'},
+   {t:'PDK 구성 파악',ex:'셀 lib·tech·design rule·모델'},
+   {t:'"어떤 파일이 어느 단계에 쓰이나" 지도',ex:'.lib→합성/STA, .lef→PnR'},
+   {t:'우리 랩 PDK·라이브러리 위치 확인',ex:'조교에게 경로 받기'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'PDK의 셀 라이브러리로 RTL을 실제 게이트에 매핑'},
+   {to:'4_0',label:'L4 Floorplan',note:'PDK의 물리 정보로 칩 형상을 잡음'},
+   {to:'9_3',label:'L9 DRC',note:'PDK의 design rule로 최종 검증'}]},
+ {plan:true,t:'2.2 Liberty (.lib) 읽기',est:'1.5~2일',one:'timing/power library',method:'.lib 텍스트를 열어 셀 하나의 timing arc와 lookup table 구조를 직접 읽기. "slew/load가 크면 지연이 큰지" 표에서 확인.',pass:'.lib에서 한 셀의 지연 lookup 표를 찾아 부하-지연 관계를 확인.',resource:'Liberty 포맷 개요 · 셀 데이터시트',
+  subs:[
+   {t:'.lib = 셀별 timing/power 정보',ex:''},
+   {t:'cell / pin / direction / capacitance',ex:'핀 단위 정보'},
+   {t:'timing arc (input→output)',ex:'어느 핀→어느 핀 지연'},
+   {t:'delay model NLDM',ex:'delay = f(input slew, output load)'},
+   {t:'setup/hold constraint가 .lib에 있음',ex:'0.5의 Tsu/Th 출처'},
+   {t:'power: leakage / internal / switching',ex:''},
+   {t:'operating condition / PVT corner',ex:'SS/TT/FF, V, T'},
+   {t:'단위 (time/cap/voltage)',ex:'ns, pF 등'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'합성이 이 표로 타이밍·면적을 추정해 셀을 고름'},
+   {to:'8_0',label:'L8 STA',note:'★ STA가 경로마다 이 lookup 표를 룩업해 지연 계산 — 0.5 slack의 실제 숫자 근거'},
+   {to:'8_3',label:'L8 Setup/Hold',note:'.lib의 setup/hold 값이 부등식에 그대로 들어감'}]},
+ {plan:true,t:'2.3 .lib → .db 컴파일',est:'1일',one:'Library Compiler',method:'lc_shell로 .lib를 .db로 변환하고, dc_shell 셋업에서 target_library/link_library를 지정해 보기.',pass:'.db를 만들고 합성 셋업에 라이브러리를 지정.',resource:'Library Compiler / DC 셋업 가이드',
+  subs:[
+   {t:'.lib(텍스트) → .db(바이너리)',ex:'DC가 먹는 형식'},
+   {t:'lc_shell: read_lib / write_lib',ex:'write_lib -format db'},
+   {t:'target_library / link_library 설정',ex:'DC가 어느 셀을 쓰나'},
+   {t:'.synopsys_dc.setup 파일',ex:'환경 셋업'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'dc_shell가 이 .db를 읽어 합성 — 셋업이 틀리면 합성 자체가 안 됨'},
+   {to:'8_0',label:'L8 STA',note:'PrimeTime도 같은 timing 라이브러리(.db/.lib)를 읽음'}]},
+ {plan:true,t:'2.4 물리 라이브러리: LEF & NDM',est:'1.5일',one:'LEF / NDM',method:'LEF에서 셀 하나의 크기·핀 위치를 읽고, ICC2용 NDM 레퍼런스 라이브러리가 무엇을 묶는지 흐름 이해.',pass:'LEF에서 셀 크기/핀을 읽고, NDM이 lib+lef+tech를 묶는다는 걸 설명.',resource:'LEF/DEF 개요 · ICC2 library_manager',
+  subs:[
+   {t:'LEF = abstract physical view',ex:'크기·핀·층·OBS'},
+   {t:'site / row (셀 높이 단위)',ex:'0.7의 row 정렬 근거'},
+   {t:'routing layer / track 정의',ex:''},
+   {t:'ICC2는 NDM(.ndm) ref lib 사용',ex:'lib+lef+tech 묶음'},
+   {t:'NDM 빌드 흐름 개념',ex:'create_workspace/read_ndm'}],
+  uses:[
+   {to:'4_0',label:'L4 Floorplan',note:'셀·매크로 크기 정보로 칩 면적과 배치를 계획'},
+   {to:'5_0',label:'L5 Placement',note:'셀 크기/핀 위치가 배치의 직접 입력'},
+   {to:'7_1',label:'L7 Routing',note:'핀이 어느 층 어디 있는지로 배선'}]},
+ {plan:true,t:'2.5 Tech File & 금속 스택',est:'1일',one:'metal stack',method:'우리 공정의 금속 스택 그림 한 장을 직접 그리기 (층 수, 방향, via).',pass:'metal layer 수·방향과 via 개념을 설명.',resource:'공정 tech 문서 · 금속 스택 그림',
+  subs:[
+   {t:'tech file = layer/간격/폭/via 규칙',ex:''},
+   {t:'metal layer M1~Mn',ex:'위층일수록 굵고 빠름'},
+   {t:'층 방향 교대 (가로/세로)',ex:'홀수층 가로 등'},
+   {t:'routing track / pitch / grid',ex:'배선 격자'},
+   {t:'기생 추출용 tech (tlu+)',ex:'나중 STA용'}],
+  uses:[
+   {to:'7_0',label:'L7 Routing',note:'층 수·방향·트랙이 곧 배선 자원'},
+   {to:'9_3',label:'L9 DRC',note:'이 간격/폭 규칙이 DRC 검사 기준'},
+   {to:'8_0',label:'L8 STA',note:'금속 기생(R/C)이 배선 지연으로 STA에 들어감'}]},
+ {plan:true,t:'2.6 SDC — 제약 작성',est:'2~3일',star:true,one:'constraints',method:'작은 설계에 SDC를 직접 작성: 클럭 1개 + IO delay + false path 1개. 0.5에서 손계산한 Tclk가 create_clock으로 들어가는 걸 확인.',pass:'create_clock부터 IO delay·예외 경로까지 들어간 SDC를 직접 작성.',resource:'SDC 매뉴얼 · Synopsys 제약 가이드',
+  subs:[
+   {t:'SDC = Tcl 기반 제약 파일',ex:''},
+   {t:'create_clock -period ★',ex:'0.5의 Tclk를 선언'},
+   {t:'create_generated_clock',ex:'분주/파생 클럭'},
+   {t:'set_input_delay / set_output_delay',ex:'IO 타이밍'},
+   {t:'set_clock_uncertainty',ex:'skew/jitter 마진'},
+   {t:'set_clock_latency',ex:'클럭 지연'},
+   {t:'set_false_path / set_multicycle_path',ex:'예외 경로'},
+   {t:'set_max_delay / set_min_delay',ex:''},
+   {t:'set_load / set_driving_cell',ex:'IO 환경 모델링'}],
+  uses:[
+   {to:'3_3',label:'L3 제약',note:'★ 합성이 이 SDC를 목표로 회로를 최적화'},
+   {to:'8_0',label:'L8 STA',note:'★ STA가 같은 SDC로 검증 — SDC가 틀리면 결과 전부가 틀림'},
+   {to:'8_6',label:'L8 Timing Closure',note:'false/multicycle path를 잘 잡아야 헛된 위반을 안 쫓음'},
+   {to:'6_0',label:'L6 CTS',note:'uncertainty/latency가 CTS·타이밍에 반영'}]},
+ {plan:true,t:'2.7 MMMC (멀티 모드·코너)',est:'1~1.5일',star:true,one:'multi-mode multi-corner',method:'setup/hold가 각각 어느 코너로 봐야 하는지 정리하고, scenario(mode×corner) 개념을 이해.',pass:'"setup=느린 코너, hold=빠른 코너" 이유를 설명하고 MMMC가 왜 필요한지 말한다.',resource:'MMMC / scenario 셋업 가이드',
+  subs:[
+   {t:'corner = PVT 조합 (.lib corner)',ex:'SS/TT/FF, V, T'},
+   {t:'mode = 동작 모드 (SDC 세트)',ex:'functional/test'},
+   {t:'★ setup=slow corner, hold=fast corner',ex:'왜인지 설명'},
+   {t:'scenario = mode × corner',ex:''},
+   {t:'MMMC 셋업 개념',ex:'create_scenario 등'}],
+  uses:[
+   {to:'8_3',label:'L8 Setup/Hold',note:'★ setup·hold를 서로 다른 코너로 검사하는 게 signoff의 핵심'},
+   {to:'8_0',label:'L8 STA',note:'코너별 WNS/TNS를 모두 0 이상으로'},
+   {to:'5_0',label:'L5 Placement',note:'배치·최적화도 멀티코너 기준으로 진행'}]},
+ {plan:true,t:'2.8 입력 점검 & 셋업 스크립트',est:'1일',one:'inputs & setup',method:'flow 입력 체크리스트를 표로 작성하고, 라이브러리 경로를 Tcl 셋업 스크립트로 정리. 흔한 에러(라이브러리 못 찾음·단위 불일치·코너 누락)를 미리 점검.',pass:'합성/PnR/STA 각각 필요한 입력 파일을 표로 정리.',resource:'랩 flow 셋업 예제 · Tcl',
+  subs:[
+   {t:'입력 파일 지도',ex:'RTL/.db/NDM/tech/SDC/MMMC'},
+   {t:'단위·네이밍 일관성',ex:'lib 단위, 셀 이름'},
+   {t:'Tcl 셋업으로 경로 관리',ex:'0.8 Tcl 활용'},
+   {t:'흔한 에러 점검',ex:'못 찾음·단위·코너 누락'}],
+  uses:[
+   {to:'3_0',label:'L3 합성',note:'입력이 하나라도 틀리면 합성부터 실패'},
+   {to:'4_0',label:'L4 Floorplan',note:'PnR 입력(NDM/tech) 누락 시 진행 불가'},
+   {to:'8_0',label:'L8 STA',note:'코너/SDC 누락 시 signoff 불완전'}]},
+];
+
+const L3=[
+ {plan:true,t:'3.1 합성 개념 & 흐름',est:'1일',one:'synthesis flow',method:'합성 흐름도를 한 장 그리기: 입력(RTL+.db+SDC) → read/elaborate → constrain → compile → write(netlist). 각 단계 입출력을 명확히.',pass:'read→constrain→compile→write 흐름과 각 단계 입출력을 설명.',resource:'Synopsys DC User Guide 개요',
+  subs:[
+   {t:'합성 = RTL → 최적화 → 게이트 netlist',ex:''},
+   {t:'4단계: read/elaborate → constrain → compile → write',ex:''},
+   {t:'GTECH(generic) → mapped(실제 셀) 2단계',ex:'기술 독립→의존'},
+   {t:'왜 합성하나',ex:'게이트를 사람이 일일이 못 짬'}],
+  uses:[
+   {to:'4_0',label:'L4 Floorplan',note:'합성이 만든 netlist가 칩에 배치될 대상'},
+   {to:'8_0',label:'L8 STA',note:'합성에서 본 타이밍을 L8에서 정밀 재검증'}]},
+ {plan:true,t:'3.2 환경 셋업 & 라이브러리 로드',est:'1일',one:'dc_shell setup',method:'dc_shell을 켜고 L2의 .db를 target/link library로 지정해 에러 없이 로드. 로그를 읽는 습관.',pass:'라이브러리 로드 + design link가 에러 없이 성공.',resource:'.synopsys_dc.setup 가이드',
+  subs:[
+   {t:'.synopsys_dc.setup 파일',ex:'환경 자동 설정'},
+   {t:'set target_library / link_library',ex:'L2의 .db 지정'},
+   {t:'set search_path',ex:'파일 경로'},
+   {t:'dc_shell 실행 + 로그 읽기',ex:'에러/경고 확인'}],
+  uses:[
+   {to:'8_0',label:'L8 STA',note:'PrimeTime도 같은 라이브러리 셋업 방식 — 한 번 익히면 재사용'}]},
+ {plan:true,t:'3.3 RTL 읽기 & elaborate',est:'1일',one:'read & elaborate',method:'내 RTL을 read→elaborate→link하고 check_design 경고를 정리. 비합성 구문이 여기서 에러로 잡힘(1.5와 연결).',pass:'RTL을 에러 없이 elaborate+link하고 check_design을 통과.',resource:'DC read/elaborate 가이드',
+  subs:[
+   {t:'read_verilog / analyze + elaborate',ex:''},
+   {t:'current_design 설정',ex:'top 지정'},
+   {t:'link (참조 해결)',ex:'서브모듈 연결'},
+   {t:'check_design (경고 점검)',ex:'미연결·다중드라이버'},
+   {t:'비합성 구문이 여기서 에러',ex:'1.5 규칙 위반 발견'}],
+  uses:[
+   {to:'9_4',label:'L9 LVS',note:'여기서 잡은 계층/연결이 최종 netlist↔layout 대조의 기준'}]},
+ {plan:true,t:'3.4 제약 적용 (SDC 읽기)',est:'1일',star:true,one:'apply constraints',method:'L2.6에서 만든 SDC를 적용하고, check_timing으로 제약 누락(unconstrained)을 점검 — 이걸 빼면 합성이 엉뚱하게 됨.',pass:'SDC 적용 후 check_timing에 unconstrained 경고가 없음.',resource:'SDC + check_timing 가이드',
+  subs:[
+   {t:'read_sdc / source constraints',ex:'L2.6의 SDC'},
+   {t:'create_clock 적용',ex:'0.5의 Tclk가 들어감'},
+   {t:'set_input_delay / set_output_delay',ex:'IO 타이밍'},
+   {t:'★ check_timing (제약 누락 점검)',ex:'unconstrained 경고'},
+   {t:'set_max_area / set_load',ex:'면적·부하 목표'}],
+  uses:[
+   {to:'8_0',label:'L8 STA',note:'★ STA가 같은 SDC로 검증 — 합성 제약과 일치해야 함'},
+   {to:'2_5',label:'L2 SDC',note:'여기서 쓰는 SDC가 바로 L2.6에서 만든 그 파일'}]},
+ {plan:true,t:'3.5 컴파일 (합성 실행)',est:'1.5일',one:'compile',method:'compile_ultra를 실행하고 로그에서 최적화 과정을 관찰. clock gating·DRC(transition/cap/fanout) 옵션을 이해.',pass:'compile_ultra가 완료되어 gate netlist가 생성됨.',resource:'compile_ultra 옵션 가이드',
+  subs:[
+   {t:'compile_ultra (주 명령)',ex:'합성+최적화'},
+   {t:'-gate_clock (clock gating)',ex:'전력 절감'},
+   {t:'map_effort / area vs timing',ex:'노력 수준'},
+   {t:'DRC: max_transition/cap/fanout',ex:'합성의 design rule'},
+   {t:'tech mapping (논리→실제 셀)',ex:'0.7 drive/Vt 선택'}],
+  uses:[
+   {to:'3_5',label:'(같은 층) 3.6 리포트',note:'compile가 만든 netlist를 3.6에서 리포트로 확인'},
+   {to:'4_0',label:'L4 Floorplan',note:'이 netlist가 PnR의 입력'}]},
+ {plan:true,t:'3.6 리포트 읽기 (QoR)',est:'2일',star:true,one:'read reports',method:'report_timing을 출력해 한 critical path를 셀별 지연으로 분해해 읽기. 0.5의 slack이 실제 리포트 숫자로 보이는 순간.',pass:'report_qor에서 WNS/TNS/area를 읽고, 한 경로를 단계별로 분해 설명.',resource:'report_timing/report_qor 읽는 법',
+  subs:[
+   {t:'★ report_qor (WNS/TNS/면적 요약)',ex:'한눈 요약'},
+   {t:'★ report_timing (critical path 분해)',ex:'0.5 slack의 실체'},
+   {t:'경로를 startpoint/endpoint/지연 단계로 읽기',ex:''},
+   {t:'report_area',ex:'면적'},
+   {t:'report_power',ex:'전력 추정'},
+   {t:'report_constraint -all_violators',ex:'모든 위반'}],
+  uses:[
+   {to:'8_0',label:'L8 STA',note:'★ report_timing 읽는 기술이 L8 signoff와 100% 동일 — Timing Report 결과물'},
+   {to:'8_2',label:'L8 Timing Path',note:'경로를 분해해 읽는 능력이 곧 디버깅 실력'}]},
+ {plan:true,t:'3.7 타이밍이 안 맞을 때',est:'1.5일',one:'fix timing',method:'일부러 빡빡한 클럭을 줘서 위반을 만들고, 제약 현실화·옵션·구조 수정으로 다시 통과시켜 보기.',pass:'위반을 만들고 다시 통과시키는 과정을 1회 경험.',resource:'DC 타이밍 최적화 가이드',
+  subs:[
+   {t:'WNS 음수면? 원인 분류',ex:'제약/구조/옵션'},
+   {t:'면적 vs 타이밍 trade-off',ex:'센 셀=빠름·면적↑'},
+   {t:'uniquify / ungroup / boundary opt',ex:'경계 최적화'},
+   {t:'"합성서 못 맞추면 PnR서 거의 못 맞춤"',ex:'조기 경보'}],
+  uses:[
+   {to:'8_6',label:'L8 Timing Closure',note:'여기서 익힌 "위반→수정" 루프가 L8 closure의 축소판'},
+   {to:'5_4',label:'L5 Timing-driven',note:'배치도 같은 critical path를 우선 처리'}]},
+ {plan:true,t:'3.8 결과물 저장 & 등가검증',est:'1.5일',star:true,one:'write & Formality',method:'netlist/SDC를 저장하고, Formality(fm_shell)로 RTL↔netlist 등가검증(LEC)을 통과시키기.',pass:'netlist+SDC 저장 + Formality 등가검증 PASS.',resource:'write/write_sdc · Formality 가이드',
+  subs:[
+   {t:'write -format verilog -hierarchy',ex:'gate netlist 저장'},
+   {t:'write_sdc / write_script',ex:'제약 전달'},
+   {t:'SDF (지연) 개념',ex:'gate-level sim용'},
+   {t:'★ Formality로 RTL↔netlist 등가검증',ex:'합성이 논리를 안 바꿨나'},
+   {t:'결과물 정리',ex:'netlist.v, top.sdc, QoR'}],
+  uses:[
+   {to:'4_0',label:'L4 Floorplan',note:'저장한 netlist가 PnR 입력'},
+   {to:'9_4',label:'L9 LVS',note:'이 netlist가 최종 layout 대조의 기준'},
+   {to:'1_5',label:'L1 검증',note:'같은 testbench로 gate-level sim도 가능'}]},
+];
+
+const L4=[
+ {plan:true,t:'4.1 ICC2 시작 & 디자인 로드',est:'1일',one:'open design',method:'ICC2에서 L2의 NDM ref lib를 연결하고, L3 netlist를 읽어 link_block. MMMC/SDC도 로드.',pass:'netlist를 ICC2에 로드하고 link_block + SDC 적용 성공.',resource:'ICC2 Data Model / library setup 가이드',
+  subs:[
+   {t:'ICC2 데이터 모델 (NDM/design lib/block)',ex:''},
+   {t:'create_lib / open_lib (ref = L2 NDM)',ex:'물리 라이브러리 연결'},
+   {t:'read_verilog netlist + link_block',ex:'L3 결과물'},
+   {t:'read_sdc / MMMC 로드',ex:'L2.6/2.7'},
+   {t:'design 열고 점검',ex:'에러/미연결 확인'}],
+  uses:[
+   {to:'2_3',label:'L2 LEF/NDM',note:'여기서 연결하는 ref lib가 L2.4에서 빌드한 NDM'},
+   {to:'3_7',label:'L3 결과물',note:'L3.8에서 저장한 netlist가 ICC2의 입력'},
+   {to:'5_0',label:'L5 Placement',note:'이 ICC2 DB 위에서 L5~L9가 전부 진행'}]},
+ {plan:true,t:'4.2 Floorplan 개념 & 계획',est:'1일',one:'floorplan concept',method:'floorplan 목표(면적/모양/util)를 정하고, 좋은 floorplan과 나쁜 floorplan의 차이를 직관으로 잡기.',pass:'die/core/aspect ratio/util 목표를 설명.',resource:'ICC2 Floorplanning 개요',
+  subs:[
+   {t:'floorplan = 칩의 큰 그림',ex:'die/core/영역 분할'},
+   {t:'aspect ratio (가로:세로)',ex:'모양'},
+   {t:'먼저 잡는 이유',ex:'배치·배선 품질을 결정'},
+   {t:'좋은/나쁜 floorplan 직관',ex:'데이터플로우 따라'}],
+  uses:[
+   {to:'5_2',label:'L5 Congestion',note:'floorplan이 나쁘면 뒤에서 congestion으로 터짐'},
+   {to:'8_2',label:'L8 Timing Path',note:'블록 위치가 경로 길이=타이밍을 좌우'}]},
+ {plan:true,t:'4.3 Die / Core & Utilization',est:'1.5일',star:true,one:'die/core/util',method:'initialize_floorplan을 실행하고 utilization을 바꿔가며 die/core 면적이 어떻게 변하는지 관찰.',pass:'util 70%로 floorplan을 만들고 die/core 크기를 확인.',resource:'initialize_floorplan 가이드',
+  subs:[
+   {t:'initialize_floorplan',ex:'평면 생성 명령'},
+   {t:'-core_utilization / -core_offset',ex:'밀도/여백'},
+   {t:'aspect ratio 지정',ex:'정사각/직사각'},
+   {t:'die area vs core area',ex:'전체 vs 셀 영역'},
+   {t:'★ utilization 선택 (0.6~0.7)',ex:'너무 높으면 막힘'},
+   {t:'report_design / 면적 확인',ex:''}],
+  uses:[
+   {to:'5_2',label:'L5 Congestion',note:'★ utilization이 곧 congestion의 첫 손잡이 (0.7의 Congestion Analysis)'},
+   {to:'9_1',label:'L9 PPA',note:'die 면적이 PPA의 Area로 평가됨'}]},
+ {plan:true,t:'4.4 I/O · Pin 배치',est:'1일',one:'I/O placement',method:'place_pins로 핀을 배치하고, 데이터플로우를 보며 어느 변에 둘지 점검.',pass:'IO/pin을 배치하고 위치를 점검.',resource:'ICC2 pin placement 가이드',
+  subs:[
+   {t:'I/O pad ring(full chip) vs pin(block)',ex:''},
+   {t:'place_pins / pin constraint',ex:'핀 배치'},
+   {t:'핀을 어느 변에 둘지',ex:'외부 연결 방향'},
+   {t:'IO 위치가 내부 배치·타이밍에 영향',ex:''}],
+  uses:[
+   {to:'5_0',label:'L5 Placement',note:'핀 위치 근처로 관련 로직이 모임'},
+   {to:'7_1',label:'L7 Routing',note:'결국 이 핀까지 배선이 도달해야 함'}]},
+ {plan:true,t:'4.5 Macro 배치',est:'1.5일',star:true,one:'macro placement',method:'SRAM 등 매크로를 코너/가장자리 좋은 자리에 두고 halo로 보호. 데이터 핀 방향을 코어 쪽으로.',pass:'매크로를 배치하고 halo로 주변을 보호.',resource:'ICC2 macro placement 가이드',
+  subs:[
+   {t:'매크로(SRAM 등) 식별',ex:'큰 블록'},
+   {t:'좋은 자리: 코너/가장자리',ex:'코어를 막지 않게'},
+   {t:'halo / keepout 설정',ex:'주변 셀 금지'},
+   {t:'orientation / 핀 방향',ex:'데이터플로우 고려'},
+   {t:'★ 매크로 주변 congestion 주의',ex:'채널 막힘'}],
+  uses:[
+   {to:'5_2',label:'L5 Congestion',note:'★ 매크로를 잘못 두면 주변이 통째로 막힘'},
+   {to:'7_0',label:'L7 Routing',note:'매크로 사이 채널로 배선이 지나감'},
+   {to:'8_2',label:'L8 Timing Path',note:'매크로~로직 경로가 길면 타이밍 위반'}]},
+ {plan:true,t:'4.6 Power Planning (PDN)',est:'2일',star:true,one:'power network',method:'ring + stripe(mesh) + std-cell rail을 만들고 PG 연결을 점검(check_pg). 가장 손이 많이 가는 부분.',pass:'PDN(ring/stripe/rail)을 만들고 PG 연결을 확인.',resource:'ICC2 PDN / power planning 가이드',
+  subs:[
+   {t:'power/ground network 개념',ex:'VDD/VSS'},
+   {t:'power ring (코어 둘레)',ex:''},
+   {t:'power stripe / mesh (상위층 굵은 줄기)',ex:''},
+   {t:'std-cell rail (M1, 셀에 공급)',ex:''},
+   {t:'create_pg_* / compute via / connect',ex:'PG 생성'},
+   {t:'★ check_pg (연결 점검)',ex:'끊긴 곳 없게'},
+   {t:'IR drop 대비',ex:'전압 강하 최소화'}],
+  uses:[
+   {to:'9_1',label:'L9 Power/IR',note:'★ 이 PDN 품질이 L9 Power Analysis·IR drop에서 그대로 평가됨'},
+   {to:'7_0',label:'L7 Routing',note:'전원 그물이 상위 금속층을 점유 → 신호 배선 자원 영향'}]},
+ {plan:true,t:'4.7 Blockage & 영역 제어',est:'1일',one:'blockage/region',method:'매크로 주변·특수 영역에 placement/routing blockage를 설정해 배치·배선 품질을 확보.',pass:'blockage로 특정 영역의 셀 배치를 금지.',resource:'ICC2 blockage/region 가이드',
+  subs:[
+   {t:'placement blockage (hard/soft/partial)',ex:'완전/일부 금지'},
+   {t:'routing blockage',ex:'배선 금지 영역'},
+   {t:'placement region / bounds',ex:'특정 로직 묶기'},
+   {t:'매크로 주변·특수 영역 보호',ex:''}],
+  uses:[
+   {to:'5_0',label:'L5 Placement',note:'blockage가 배치 품질을 끌어올림'},
+   {to:'7_1',label:'L7 Routing',note:'routing blockage로 특정 층/영역 회피'}]},
+ {plan:true,t:'4.8 Floorplan 점검 & 저장',est:'1일',one:'check & save',method:'floorplan을 점검(util/PG/매크로/핀 체크리스트)하고 저장해 placement 준비.',pass:'점검 통과 + floorplan 저장(save_block/write_def).',resource:'ICC2 check / save 가이드',
+  subs:[
+   {t:'check_design / 합법성 점검',ex:''},
+   {t:'좋은 floorplan 체크리스트',ex:'util·PG·매크로·핀'},
+   {t:'save_block / write_def',ex:'floorplan 저장'},
+   {t:'placement 준비 상태 확인',ex:''}],
+  uses:[
+   {to:'5_0',label:'L5 Placement',note:'이 floorplan이 placement의 출발점'}]},
+];
+
+const L5=[
+ {plan:true,t:'5.1 Placement 개념 & 흐름',est:'1일',one:'placement flow',method:'배치 흐름(global → detailed → legalization)을 정리. 입력(floorplan)과 출력(placed)을 명확히.',pass:'global/detailed/legalization 3단계와 배치의 두 목표(타이밍·congestion)를 설명.',resource:'ICC2 Placement 개요',
+  subs:[
+   {t:'placement = 수십만 std cell을 코어에 배치',ex:''},
+   {t:'global → detailed → legalization',ex:'대략→정밀→격자'},
+   {t:'두 목표: 짧은 배선(타이밍) + 라우팅 가능(congestion)',ex:''},
+   {t:'floorplan 위에서 시작',ex:'L4가 입력'}],
+  uses:[
+   {to:'6_0',label:'L6 CTS',note:'배치가 끝나야 클럭 트리를 심을 수 있음'},
+   {to:'7_0',label:'L7 Routing',note:'배치 품질이 라우팅 가능성을 좌우'}]},
+ {plan:true,t:'5.2 place_opt 실행 (ICC2)',est:'1일',one:'run placement',method:'place_opt를 실행해 배치+최적화를 돌리고, 로그와 QoR로 초기 결과를 점검.',pass:'place_opt가 완료되어 placed design이 생성됨.',resource:'ICC2 place_opt 가이드',
+  subs:[
+   {t:'place_opt (배치+최적화 통합)',ex:''},
+   {t:'global(coarse) 배치',ex:'대략 위치'},
+   {t:'옵션: congestion-driven / high effort',ex:''},
+   {t:'초기 결과 점검',ex:'QoR 요약'}],
+  uses:[
+   {to:'7_0',label:'L7 Routing',note:'이 배치를 바탕으로 배선'},
+   {to:'8_0',label:'L8 STA',note:'배치 후 타이밍이 합성 추정보다 현실에 가까워짐'}]},
+ {plan:true,t:'5.3 Congestion 분석',est:'1.5일',star:true,one:'congestion analysis',method:'report_congestion과 congestion map을 보고 빨간 hotspot을 찾아 원인(util·매크로·핀 밀집)을 추정. 예상 결과물이 바로 이것.',pass:'congestion map에서 hotspot을 찾고 원인을 추정해 설명.',resource:'ICC2 report_congestion 가이드',
+  subs:[
+   {t:'congestion = 라우팅 수요 > 공급',ex:''},
+   {t:'★ report_congestion / map(GRC overflow)',ex:'overflow 수치'},
+   {t:'빨간 hotspot 읽기',ex:'어디가 막혔나'},
+   {t:'원인 분류',ex:'util·매크로·핀 밀집'}],
+  uses:[
+   {to:'7_0',label:'L7 Routing',note:'★ congestion을 못 풀면 라우팅 자체가 실패'},
+   {to:'4_2',label:'L4 Utilization',note:'원인이 util이면 L4.3로 돌아가 낮춤'}]},
+ {plan:true,t:'5.4 Congestion 해소',est:'1.5일',one:'fix congestion',method:'hotspot 영역의 util을 낮추거나 매크로/blockage를 재배치(L4로 피드백)하고, cell padding/spreading으로 다시 배치.',pass:'congestion hotspot을 1회 완화.',resource:'congestion 완화 기법',
+  subs:[
+   {t:'utilization 낮추기 (L4.3 피드백)',ex:''},
+   {t:'매크로/blockage 재배치 (L4.5/4.7)',ex:''},
+   {t:'cell padding / spreading',ex:'밀도 완화'},
+   {t:'핀/매크로 채널 확보',ex:''}],
+  uses:[
+   {to:'4_4',label:'L4 Macro',note:'매크로 위치가 원인이면 L4.5로 돌아가 재배치'},
+   {to:'4_6',label:'L4 Blockage',note:'blockage로 밀집 영역을 비움'},
+   {to:'7_1',label:'L7 Routing',note:'완화돼야 detailed routing이 성공'}]},
+ {plan:true,t:'5.5 Timing-driven Placement',est:'1.5일',star:true,one:'timing-driven',method:'배치 후 report_timing으로 critical path를 확인. congestion vs timing trade-off를 의식하며 느린 경로 셀을 가깝게.',pass:'배치 후 critical path를 식별하고 개선 방향을 설명.',resource:'ICC2 timing-driven placement 가이드',
+  subs:[
+   {t:'critical path 셀을 가깝게',ex:'배선↓=빠름'},
+   {t:'congestion vs timing trade-off',ex:'둘 다 만족 어려움'},
+   {t:'report_timing (배치 후)',ex:'0.5 slack / 3.6과 연결'},
+   {t:'STA 피드백 반영',ex:''}],
+  uses:[
+   {to:'8_6',label:'L8 Timing Closure',note:'★ 여기서 미리 타이밍을 잡아두면 L8 closure가 쉬워짐'},
+   {to:'3_5',label:'L3 리포트',note:'report_timing 읽는 기술은 3.6과 동일'},
+   {to:'6_2',label:'L6 Buffer Tree',note:'배치가 클럭 트리 모양에도 영향'}]},
+ {plan:true,t:'5.6 Legalization & 점검',est:'1일',one:'legalization',method:'셀을 row/site 격자에 정렬하고 겹침을 제거(legalize), check_legality로 합법성 확인.',pass:'합법적 배치(겹침 0)를 확인.',resource:'ICC2 legalization 가이드',
+  subs:[
+   {t:'legalization (row/site 격자 정렬)',ex:'겹침 제거'},
+   {t:'check_legality',ex:'합법성 점검'},
+   {t:'고정 셀(매크로/IO) 존중',ex:''},
+   {t:'report_utilization (배치 밀도)',ex:''}],
+  uses:[
+   {to:'6_0',label:'L6 CTS',note:'합법적 배치라야 클럭 트리를 심음'},
+   {to:'7_1',label:'L7 Routing',note:'격자에 정렬돼야 배선 가능'}]},
+ {plan:true,t:'5.7 결과 점검 & 저장',est:'1일',one:'check & save',method:'report_qor/timing/congestion을 종합 점검하고 placed design을 저장해 CTS를 준비.',pass:'QoR·timing·congestion 종합 점검 + placed design 저장.',resource:'ICC2 리포트/save 가이드',
+  subs:[
+   {t:'report_qor / report_timing / report_congestion 종합',ex:''},
+   {t:'좋은 배치 체크리스트',ex:'타이밍·혼잡·밀도'},
+   {t:'save_block (placed design)',ex:''},
+   {t:'CTS 준비 상태 확인',ex:'배치 안정'}],
+  uses:[
+   {to:'6_0',label:'L6 CTS',note:'이 placed design이 CTS의 입력'}]},
+];
+
+const L6=[
+ {plan:true,t:'6.1 CTS 개념 & 흐름',est:'1일',one:'clock tree synthesis',method:'CTS가 왜 필요한지(클럭을 모든 FF에 균형 분배), 위치(배치 후·라우팅 전), 입출력을 정리.',pass:'CTS의 위치와 목표(skew↓)를 설명.',resource:'ICC2 CTS 개요',
+  subs:[
+   {t:'CTS = 클럭을 모든 FF에 균형 분배',ex:''},
+   {t:'배치 후 · 라우팅 전에 수행',ex:'placed design 필요'},
+   {t:'클럭은 특별 취급 (NDR)',ex:'넓은 배선/실드'},
+   {t:'목표: skew 최소화',ex:'0.5 마진 보호'}],
+  uses:[
+   {to:'8_3',label:'L8 Setup/Hold',note:'skew가 0.5 부등식의 마진을 깎음 — CTS가 그 마진을 지킴'},
+   {to:'7_2',label:'L7 Detailed',note:'클럭 net을 라우팅에서 우선 처리'}]},
+ {plan:true,t:'6.2 Clock Skew & Latency',est:'1.5일',star:true,one:'skew & latency',method:'skew와 insertion delay를 그림으로 그리고, 그것이 0.5의 setup/hold 부등식에 어떻게 들어가는지 연결.',pass:'skew가 setup·hold 양쪽 마진에 미치는 영향을 설명.',resource:'CTS skew/latency 가이드',
+  subs:[
+   {t:'skew = FF마다 클럭 도착 시간 차',ex:''},
+   {t:'insertion delay (latency)',ex:'소스→FF 지연'},
+   {t:'local vs global skew',ex:''},
+   {t:'useful skew (맛보기)',ex:'일부러 skew로 이득'}],
+  uses:[
+   {to:'8_3',label:'L8 Setup/Hold',note:'★ skew가 setup·hold 양쪽 부등식에 직접 들어감'},
+   {to:'8_4',label:'L8 Slack/WNS/TNS',note:'skew가 slack 계산에 반영됨'}]},
+ {plan:true,t:'6.3 Clock Tree 구조 & 버퍼',est:'1일',one:'tree & buffers',method:'H-tree/mesh 구조를 그리고 클럭 버퍼/인버터 트리가 skew·전력을 어떻게 결정하는지 이해.',pass:'트리 구조가 skew·전력을 좌우하는 이유를 설명.',resource:'clock tree 구조 가이드',
+  subs:[
+   {t:'H-tree / mesh 구조',ex:'대칭 분배'},
+   {t:'clock buffer / inverter 트리',ex:''},
+   {t:'tree level / balanced load',ex:''}],
+  uses:[
+   {to:'9_1',label:'L9 Power',note:'클럭 트리가 dynamic power의 큰 부분을 차지'}]},
+ {plan:true,t:'6.4 clock_opt 실행 (ICC2)',est:'1일',one:'run CTS',method:'clock_opt를 실행해 클럭 트리를 합성·최적화. CTS spec(target skew/latency)과 NDR을 설정.',pass:'clock_opt가 완료되어 clock tree가 생성됨.',resource:'ICC2 clock_opt 가이드',
+  subs:[
+   {t:'clock_opt (CTS+최적화)',ex:''},
+   {t:'CTS spec (target skew/latency)',ex:''},
+   {t:'NDR (non-default rule)',ex:'넓은 클럭 배선'},
+   {t:'clock gating 처리',ex:''}],
+  uses:[
+   {to:'7_2',label:'L7 Detailed',note:'생성된 클럭 net을 NDR로 라우팅'}]},
+ {plan:true,t:'6.5 Skew/Latency 리포트',est:'1일',one:'report CTS',method:'report_clock_timing -type skew와 report_clock_tree로 skew/latency를 읽고 해석.',pass:'skew/latency 리포트를 읽고 해석.',resource:'report_clock_timing 가이드',
+  subs:[
+   {t:'report_clock_timing -type skew',ex:''},
+   {t:'report_clock_tree -summary',ex:''},
+   {t:'insertion delay 확인',ex:''},
+   {t:'0.5 / 3.6과 연결',ex:'리포트 읽기'}],
+  uses:[
+   {to:'8_4',label:'L8 Slack/WNS/TNS',note:'이 skew가 STA의 slack 계산에 들어감'}]},
+ {plan:true,t:'6.6 CTS 후 점검 & 저장',est:'1일',one:'post-CTS',method:'post-CTS setup/hold를 확인. CTS 후 흔한 hold 위반을 점검하고 저장.',pass:'post-CTS 타이밍(특히 hold)을 점검 + 저장.',resource:'post-CTS 타이밍 가이드',
+  subs:[
+   {t:'post-CTS setup/hold 변화',ex:''},
+   {t:'★ hold 위반 주의 (CTS 후 흔함)',ex:''},
+   {t:'save_block',ex:'clock tree 저장'}],
+  uses:[
+   {to:'7_0',label:'L7 Routing',note:'clock tree 박힌 design이 라우팅 입력'},
+   {to:'8_3',label:'L8 Setup/Hold',note:'CTS 후 hold 위반을 L8에서 정밀 검사'}]},
+];
+
+const L7=[
+ {plan:true,t:'7.1 Routing 개념 & 흐름',est:'1일',one:'routing flow',method:'배선 흐름(global → track assign → detailed)을 정리하고 layer 자원(L2.5)을 떠올리기.',pass:'global/detailed 흐름과 layer 자원을 설명.',resource:'ICC2 Routing 개요',
+  subs:[
+   {t:'routing = 핀을 금속/Via로 연결',ex:''},
+   {t:'global → track assign → detailed',ex:''},
+   {t:'layer 자원 (L2.5 metal stack)',ex:''},
+   {t:'clock route 우선',ex:'CTS net 먼저'}],
+  uses:[
+   {to:'9_3',label:'L9 DRC',note:'배선이 DRC를 통과해야 제조 가능'},
+   {to:'8_4',label:'L8 Slack',note:'배선 지연이 타이밍에 추가됨'}]},
+ {plan:true,t:'7.2 Global Routing',est:'1일',one:'global route',method:'global routing 후 congestion을 다시 확인. gcell 단위 경로 계획과 overflow를 본다.',pass:'global routing 후 congestion overflow를 점검.',resource:'ICC2 global route 가이드',
+  subs:[
+   {t:'gcell 단위 경로 계획',ex:''},
+   {t:'congestion 예측 / overflow',ex:''},
+   {t:'layer 할당',ex:''}],
+  uses:[
+   {to:'5_2',label:'L5 Congestion',note:'global route가 L5의 congestion을 실측으로 확인'}]},
+ {plan:true,t:'7.3 Detailed Routing',est:'1.5일',one:'detailed route',method:'route_auto/route_opt로 실제 금속·Via 배선을 완성하고 open/short를 0으로.',pass:'detailed routing 완료 (open/short 0).',resource:'ICC2 detailed route 가이드',
+  subs:[
+   {t:'실제 금속/Via 연결',ex:''},
+   {t:'track에 정확히 배선',ex:''},
+   {t:'route_auto / route_opt',ex:''},
+   {t:'multi-via / via optimization',ex:''}],
+  uses:[
+   {to:'9_4',label:'L9 LVS',note:'실제 연결이 netlist와 같아야 LVS 통과'}]},
+ {plan:true,t:'7.4 DRC during Routing',est:'1일',one:'in-route DRC',method:'check_routes로 spacing/width/via 위반을 정리. L2.5의 tech rule이 기준.',pass:'check_routes 위반을 0에 근접시킴.',resource:'check_routes 가이드',
+  subs:[
+   {t:'spacing/width/via 규칙',ex:''},
+   {t:'check_routes (open/short/DRC)',ex:''},
+   {t:'위반 수정',ex:''}],
+  uses:[
+   {to:'9_3',label:'L9 DRC',note:'여기서 정리하면 signoff DRC 부담↓'}]},
+ {plan:true,t:'7.5 Antenna & 특수 규칙',est:'1일',one:'antenna/NDR',method:'antenna 위반을 점검하고 diode/jumper로 처리. 중요 net엔 NDR/실드 적용.',pass:'antenna 규칙을 이해하고 처리.',resource:'antenna / NDR 가이드',
+  subs:[
+   {t:'antenna effect (게이트 손상)',ex:''},
+   {t:'antenna diode / layer jumper',ex:'방전'},
+   {t:'NDR (wide/double via) · shielding',ex:''}],
+  uses:[
+   {to:'9_5',label:'L9 검증',note:'antenna가 physical verification 항목'}]},
+ {plan:true,t:'7.6 Post-route 최적화 & 점검',est:'1일',one:'post-route',method:'post-route timing을 확인하고 ECO route로 잔여 위반을 정리한 뒤 routed design을 저장.',pass:'post-route timing 점검 + routed design 저장.',resource:'post-route 최적화 가이드',
+  subs:[
+   {t:'post-route timing',ex:'배선 지연 포함'},
+   {t:'SI/crosstalk 영향 인지',ex:''},
+   {t:'ECO route (잔여 위반)',ex:''},
+   {t:'routed design 저장',ex:''}],
+  uses:[
+   {to:'8_1',label:'L8 SPEF',note:'routed design에서 기생(SPEF)을 추출'},
+   {to:'8_7',label:'L8 SI',note:'crosstalk를 L8 SI에서 정밀 분석'}]},
+];
+
+const L8=[
+ {plan:true,t:'8.1 STA 개념 & PrimeTime 셋업',est:'1.5일',one:'STA & PT setup',method:'PrimeTime에 netlist·라이브러리·SDC를 로드하고 link. STA가 시뮬 없이 모든 경로를 검사한다는 점을 이해.',pass:'PrimeTime에 디자인을 로드하고 link 성공.',resource:'PrimeTime User Guide · STA 개요',
+  subs:[
+   {t:'STA = 모든 경로 정적 검사 (시뮬 X)',ex:''},
+   {t:'graph-based vs path-based',ex:''},
+   {t:'PT 입력: netlist+lib+SPEF+SDC',ex:''},
+   {t:'pt_shell 셋업 & link',ex:''}],
+  uses:[
+   {to:'3_5',label:'L3 리포트',note:'report_timing 읽는 법은 3.6과 100% 동일'},
+   {to:'9_0',label:'L9 Signoff',note:'STA 통과가 물리 signoff의 전제'}]},
+ {plan:true,t:'8.2 기생 추출 (StarRC → SPEF)',est:'1일',one:'parasitics/SPEF',method:'StarRC로 배선 R/C를 추출해 SPEF로 만들고, read_parasitics로 PT에 반영. 왜 필요한지(배선 지연=실제) 이해.',pass:'SPEF를 추출/로드해 배선 지연을 타이밍에 반영.',resource:'StarRC / SPEF 가이드',
+  subs:[
+   {t:'배선의 R/C (기생)',ex:''},
+   {t:'StarRC 추출 → SPEF 파일',ex:''},
+   {t:'read_parasitics',ex:'PT에 로드'},
+   {t:'왜 필요: 배선 지연이 실제 지연',ex:''}],
+  uses:[
+   {to:'7_5',label:'L7 Post-route',note:'routed design에서 기생을 추출'},
+   {to:'2_4',label:'L2 Tech',note:'추출은 L2.5의 기생 tech를 사용'}]},
+ {plan:true,t:'8.3 Timing Path & 분석',est:'1.5일',one:'timing paths',method:'report_timing으로 한 경로를 arrival/required로 분해해 읽기. 4가지 path group을 구분.',pass:'한 timing path를 arrival/required로 분해 설명.',resource:'PrimeTime path 분석 가이드',
+  subs:[
+   {t:'startpoint / endpoint',ex:''},
+   {t:'4 path groups',ex:'in→reg, reg→reg, reg→out, in→out'},
+   {t:'arrival time / required time',ex:''},
+   {t:'launch / capture 클럭',ex:''}],
+  uses:[
+   {to:'0_4',label:'0.5 타이밍',note:'timing path 개념이 0.5에서 손으로 그린 그 그림'},
+   {to:'1_2',label:'L1 순차',note:'경로 양 끝의 FF가 1.3에서 만든 것'}]},
+ {plan:true,t:'8.4 Setup / Hold 분석',est:'1.5일',star:true,one:'setup/hold check',method:'report_timing -delay max(setup)·min(hold)으로 각각 검사. 0.5에서 손계산한 부등식이 리포트가 되는 순간.',pass:'setup·hold 위반을 각각 확인.',resource:'PrimeTime setup/hold 가이드',
+  subs:[
+   {t:'setup = max delay 검사',ex:'주기 안에 도착?'},
+   {t:'hold = min delay 검사',ex:'너무 일찍 와서 덮나?'},
+   {t:'report_timing -delay max/min',ex:''}],
+  uses:[
+   {to:'0_4',label:'0.5 Setup/Hold',note:'★ 0.5에서 손계산한 두 부등식이 여기서 실제 리포트로'},
+   {to:'6_1',label:'L6 Skew',note:'skew가 이 부등식의 마진에 들어감'}]},
+ {plan:true,t:'8.5 Slack / WNS / TNS 읽기',est:'1.5일',star:true,one:'read slack',method:'report_constraint -all_violators로 WNS/TNS를 읽고 최악 경로를 식별. 이게 곧 Timing Report 결과물.',pass:'WNS/TNS를 읽고 최악 경로를 식별.',resource:'report_constraint 가이드',
+  subs:[
+   {t:'slack = 요구 − 도착',ex:'<0 위반'},
+   {t:'WNS = 최악, TNS = 음수 총합',ex:''},
+   {t:'★ report_constraint -all_violators',ex:'모든 위반'},
+   {t:'Timing Report 결과물',ex:'팀 산출물'}],
+  uses:[
+   {to:'3_5',label:'L3 QoR',note:'3.6의 report_timing과 동일한 기술'}]},
+ {plan:true,t:'8.6 MMMC 코너 signoff',est:'1.5일',star:true,one:'corner signoff',method:'setup은 느린 코너(SS), hold는 빠른 코너(FF)로 보고, OCV/derating을 적용해 전 코너 검증.',pass:'모든 코너에서 setup·hold 위반을 확인.',resource:'MMMC / OCV 가이드',
+  subs:[
+   {t:'★ setup=slow(SS), hold=fast(FF)',ex:'2.7에서 배운 이유'},
+   {t:'OCV / derating',ex:'변이 마진'},
+   {t:'on-chip variation',ex:''},
+   {t:'scenario별 리포트',ex:''}],
+  uses:[
+   {to:'2_6',label:'L2 MMMC',note:'L2.7에서 셋업한 코너로 여기서 검증'}]},
+ {plan:true,t:'8.7 Timing Closure (위반 잡기)',est:'2~3일',star:true,one:'timing closure',method:'위반 경로에 ECO(셀 업사이징/버퍼 삽입/VT swap)를 적용해 닫는 루프를 작은 블록에서 1회 경험.',pass:'작은 블록에서 WNS≥0 만들기를 1회 경험.',resource:'PrimeTime ECO / 최적화 가이드',
+  subs:[
+   {t:'위반 → 수정 → 재분석 반복',ex:''},
+   {t:'ECO (size_cell / insert_buffer)',ex:''},
+   {t:'VT swap (HVT→LVT)',ex:'빠르게'},
+   {t:'useful skew 활용',ex:''},
+   {t:'★ 팀 목표 = 이 단계',ex:''}],
+  uses:[
+   {to:'5_4',label:'L5 Timing-driven',note:'배치 단계서 미리 잡은 게 여기서 빛남'},
+   {to:'0_6',label:'0.7 표준셀',note:'셀 교체(drive/VT)로 타이밍 잡기 — 0.7의 지식'}]},
+ {plan:true,t:'8.8 Crosstalk/SI & 최종 signoff',est:'1.5일',one:'SI & signoff',method:'PrimeTime SI로 crosstalk를 포함해 최종 타이밍 signoff. 모든 코너에서 WNS/TNS≥0를 확인.',pass:'SI 포함 전 코너 timing closure 달성.',resource:'PrimeTime SI 가이드',
+  subs:[
+   {t:'crosstalk (인접 배선 간섭)',ex:''},
+   {t:'PrimeTime SI / noise',ex:''},
+   {t:'signoff 기준',ex:'전 코너 WNS/TNS ≥ 0'}],
+  uses:[
+   {to:'7_5',label:'L7 Post-route',note:'SI 위반은 라우팅(간격/실드)으로 완화'},
+   {to:'9_0',label:'L9 Signoff',note:'timing signoff 완료 → 물리 signoff로'}]},
+];
+
+const L9=[
+ {plan:true,t:'9.1 Signoff 개념 & 흐름',est:'1일',one:'signoff flow',method:'signoff에 어떤 검증(timing/power/물리)이 있는지 체크리스트로 정리. 여기 통과해야 tape-out.',pass:'signoff의 검증 항목을 나열.',resource:'signoff 흐름 개요',
+  subs:[
+   {t:'signoff = 제조 직전 모든 검증',ex:'timing/power/물리'},
+   {t:'통과해야 tape-out',ex:''},
+   {t:'각 검증 도구 매핑',ex:'PT/ICV/Formality/PrimePower'}],
+  uses:[
+   {to:'8_7',label:'L8 STA',note:'timing signoff가 선행'},
+   {to:'9_6',label:'L9 GDSII',note:'모두 통과하면 GDSII로'}]},
+ {plan:true,t:'9.2 Power Analysis (PrimePower)',est:'1.5일',star:true,one:'power',method:'PrimePower로 dynamic/static 전력을 분석. activity(VCD/SAIF)를 입력으로.',pass:'dynamic/static 전력을 분석 (PPA의 P).',resource:'PrimePower 가이드',
+  subs:[
+   {t:'dynamic(스위칭) + static(누설)',ex:''},
+   {t:'PrimePower 실행',ex:''},
+   {t:'activity 입력 (VCD/SAIF)',ex:'토글률'},
+   {t:'★ PPA의 P',ex:'결과물'}],
+  uses:[
+   {to:'4_5',label:'L4 PDN',note:'이 분석이 L4.6 전원 그물 품질을 평가'},
+   {to:'0_5',label:'0.6 CMOS',note:'dynamic/static power 개념이 0.6에서'}]},
+ {plan:true,t:'9.3 IR Drop / EM',est:'1일',one:'power integrity',method:'rail analysis로 IR drop을 분석하고 PDN 약점을 찾는다. EM(전자이동)도 인지.',pass:'IR drop hotspot을 찾고 PDN 보강 방향을 제시.',resource:'IR drop / rail analysis 가이드',
+  subs:[
+   {t:'IR drop (전압 강하)',ex:'크면 셀이 느려짐'},
+   {t:'rail analysis / power integrity',ex:''},
+   {t:'EM (electromigration)',ex:'배선 수명'}],
+  uses:[
+   {to:'4_5',label:'L4 PDN',note:'IR drop이 크면 L4.6 PDN을 보강'}]},
+ {plan:true,t:'9.4 DRC (IC Validator)',est:'1.5일',one:'DRC signoff',method:'IC Validator runset으로 DRC를 돌려 spacing/width/density 위반을 0으로.',pass:'DRC 위반 0.',resource:'IC Validator DRC 가이드',
+  subs:[
+   {t:'design rule check (signoff)',ex:''},
+   {t:'ICV runset',ex:'규칙 묶음'},
+   {t:'spacing/width/density 위반',ex:''},
+   {t:'위반 0이어야 제조',ex:''}],
+  uses:[
+   {to:'2_4',label:'L2 Tech',note:'DRC 규칙이 L2.5 tech file에서'},
+   {to:'7_3',label:'L7 In-route DRC',note:'라우팅에서 미리 정리하면 부담↓'}]},
+ {plan:true,t:'9.5 LVS',est:'1일',one:'LVS',method:'layout이 netlist와 연결까지 일치하는지 대조(LVS). short/open을 검출.',pass:'LVS clean (layout = netlist).',resource:'LVS / Netgen 가이드',
+  subs:[
+   {t:'layout vs schematic 대조',ex:''},
+   {t:'연결 일치 검사',ex:'short/open'},
+   {t:'ICV / Netgen',ex:''}],
+  uses:[
+   {to:'3_7',label:'L3 netlist',note:'합성 netlist가 LVS의 기준'},
+   {to:'7_2',label:'L7 Detailed',note:'실제 배선 연결과 대조'}]},
+ {plan:true,t:'9.6 등가검증 & Antenna/ERC',est:'1일',one:'final checks',method:'Formality로 최종 등가검증(LEC), antenna·ERC까지 물리 검증을 마무리.',pass:'최종 등가검증·물리 규칙을 통과.',resource:'Formality / ERC 가이드',
+  subs:[
+   {t:'Formality 최종 LEC',ex:'논리 안 바뀜 확인'},
+   {t:'antenna 검사',ex:''},
+   {t:'ERC (electrical rule)',ex:''}],
+  uses:[
+   {to:'3_7',label:'L3 Formality',note:'3.8 등가검증의 최종판'}]},
+ {plan:true,t:'9.7 GDSII stream out (tape-out)',est:'1일',star:true,one:'GDSII',method:'write_gds로 GDSII를 추출. 이게 파운드리에 넘기는 최종 레이아웃 = 프로젝트 완료.',pass:'GDSII 생성 = 프로젝트 완료 🎉',resource:'stream out 가이드',
+  subs:[
+   {t:'write_gds (GDSII 추출)',ex:''},
+   {t:'★ 최종 레이아웃 = Final Layout',ex:''},
+   {t:'tape-out (파운드리 전달)',ex:''},
+   {t:'프로젝트 완료 🎉',ex:''}],
+  uses:[
+   {to:'1_7',label:'L1 SoC',note:'우리가 만든 SoC가 마침내 칩이 됨'},
+   {to:'0_0',label:'0.1 시작',note:'원자에서 여기까지 — 한 바퀴 완주'}]},
+];
+
+const LAYERS=[L0,L1,L2,L3,L4,L5,L6,L7,L8,L9];
+const CROSS=[];
+
+const byId={}, allNodes=[]; let totalAtoms=0;
+LAYERS.forEach((arr,li)=>arr.forEach((nd,ni)=>{const id=li+'_'+ni,atomKeys=nd.subs.map((s,si)=>id+'_'+si);totalAtoms+=nd.subs.length;byId[id]={id,li,ni,...nd,atomKeys};allNodes.push(byId[id]);}));
+const adj={}; allNodes.forEach(n=>adj[n.id]=new Set());
+CROSS.forEach(([a,b])=>{if(byId[a]&&byId[b]){adj[a].add(b);adj[b].add(a);}});
+
+let atoms={}, labs={};
+const frac=d=>d.subs.length?d.atomKeys.filter(k=>atoms[k]).length/d.subs.length:0;
+const doneCt=d=>d.atomKeys.filter(k=>atoms[k]).length;
+const isDone=d=>d.subs.length>0&&doneCt(d)===d.subs.length;
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+const road=document.getElementById('road'); const cardEls={}; const labEls={};
+LAYER_META.forEach((m,li)=>{
+  const layer=document.createElement('div'); layer.className='layer'; layer.style.setProperty('--lc',m.color); layer.dataset.li=li;
+  const C=2*Math.PI*22;
+  const cmdsHtml=m.lab.cmds.map(([c,cls])=>cls==='cm'?`<span class="cm">${esc(c)}</span>`:esc(c)).join('\n');
+  layer.innerHTML=`
+    <div class="rail"><div class="marker">
+      <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="${m.color}" fill-opacity=".08" stroke="${m.color}" stroke-opacity=".3" stroke-width="2"/>
+      <circle class="mring" cx="24" cy="24" r="22" fill="none" stroke="${m.color}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
+      <div class="mc">${m.code}</div><div class="wrench">🔧</div></div></div>
+    <div class="body">
+      <div class="lhead"><h3>${m.name}</h3>${m.plan?'<span class="plan-badge">📘 공부 플랜</span>':''}<span class="lcount" data-lc="${li}"></span></div>
+      <div class="ldesc">${m.desc}</div>
+      <div class="cards"></div>
+      <div class="lab" data-li="${li}">
+        <div class="lab-head"><span class="wr">🔧 실무 트랙</span><span class="tool">${m.lab.tool}</span><span class="chev">▸</span></div>
+        <div class="lab-detail"><div class="lab-in">
+          <div class="lab-sec">핵심 명령 (Synopsys)</div><div class="cmds">${cmdsHtml}</div>
+          <div class="lab-sec">봐야 할 리포트</div><div class="lab-v">${m.lab.report}</div>
+          <div class="lab-sec">미니 결과물</div><div class="lab-v">${m.lab.deliver}</div>
+          <div class="lab-sec">자료</div><div class="lab-v">${m.lab.resource}</div>
+          <div class="lab-done"><span class="box"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span> 이 단계 flow 실습 완료</div>
+        </div></div>
+      </div>
+    </div>`;
+  const cardsEl=layer.querySelector('.cards');
+  LAYERS[li].forEach((nd,ni)=>{
+    const d=byId[li+'_'+ni]; const card=document.createElement('div'); card.className='card'; card.dataset.id=d.id;
+    const sub=d.plan?('📘 '+d.est):d.en;
+    card.innerHTML=`<div class="ctop"><div class="ctitle"><div class="t">${d.t}${d.star?' <span class="star">★</span>':''}</div><div class="en">${sub}</div></div>
+      <div class="cdot"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div></div>
+      <div class="cprog"><div class="pb"><i></i></div><div class="pn">0/${d.subs.length}</div></div>`;
+    card.addEventListener('click',()=>openNode(d)); cardsEl.appendChild(card); cardEls[d.id]=card;
+  });
+  const labBox=layer.querySelector('.lab'); labEls[li]=labBox; const labDetail=labBox.querySelector('.lab-detail');
+  labBox.querySelector('.lab-head').addEventListener('click',()=>{const open=labBox.classList.toggle('open');labDetail.style.maxHeight=open?labDetail.scrollHeight+'px':'0';});
+  labBox.querySelector('.lab-done').addEventListener('click',()=>{if(labs[li])delete labs[li];else labs[li]=true;paintLab(li);refresh();save();if(labBox.classList.contains('open'))labDetail.style.maxHeight=labDetail.scrollHeight+'px';});
+  road.appendChild(layer);
+});
+document.getElementById('totalN').textContent=totalAtoms;
+
+function paintCard(d){const c=cardEls[d.id];if(!c)return;const f=frac(d),done=isDone(d);c.classList.toggle('done',done);c.classList.toggle('partial',f>0&&!done);c.querySelector('.cprog .pb i').style.width=(f*100)+'%';c.querySelector('.cprog .pn').textContent=`${doneCt(d)}/${d.subs.length}`;}
+function paintLayer(li){const ns=LAYERS[li].map((_,ni)=>byId[li+'_'+ni]);const tot=ns.reduce((s,n)=>s+n.subs.length,0),dn=ns.reduce((s,n)=>s+doneCt(n),0);const C=2*Math.PI*22,ring=road.querySelectorAll('.mring')[li];if(ring)ring.setAttribute('stroke-dashoffset',C*(1-(tot?dn/tot:0)));const lc=road.querySelector(`[data-lc="${li}"]`);if(lc)lc.textContent=`${dn}/${tot}`;}
+function paintLab(li){const box=labEls[li],layer=road.querySelector(`.layer[data-li="${li}"]`);const on=!!labs[li];box.classList.toggle('dn',on);layer.classList.toggle('lab-done',on);}
+function refresh(){const a=Object.keys(atoms).length,l=Object.keys(labs).length;document.getElementById('doneN').textContent=a;document.getElementById('aFill').style.width=(totalAtoms?a/totalAtoms*100:0)+'%';document.getElementById('labN').textContent=l;document.getElementById('lFill').style.width=(l/10*100)+'%';}
+
+const panel=document.getElementById('panel'),overlay=document.getElementById('overlay'),phContent=document.getElementById('phContent'),pbody=document.getElementById('pbody');
+let curId=null;
+function jumpTo(id){const t=byId[id];if(!t)return;closePanel();const el=cardEls[id];el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(()=>openNode(t),420);}
+function openNode(d){
+  curId=d.id; panel.style.setProperty('--lc',LAYER_META[d.li].color); const m=LAYER_META[d.li];
+  const sub=d.plan?('📘 '+d.est):d.en;
+  phContent.innerHTML=`<span class="layerchip" style="color:${m.color};background:${m.color}1f;border:1px solid ${m.color}55">${m.code}${m.plan?' · 공부 플랜':' · '+m.name}</span>
+    <h2>${d.t}${d.star?' <span class="star">★</span>':''}</h2><div class="en">${sub}</div>${d.one&&!d.plan?`<div class="one">${d.one}</div>`:''}`;
+  if(d.plan){
+    pbody.innerHTML=`
+      <div class="sec">할 일 · 하나씩 체크</div>
+      <div class="atoms">${d.subs.map((s,si)=>{const k=d.id+'_'+si,on=atoms[k];return `<div class="atom ${on?'on':''}" data-k="${k}"><div class="acheck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div><div><div class="atom-t">${s.t}</div>${s.ex?`<div class="atom-ex">${s.ex.replace(/`([^`]+)`/g,'<code>$1</code>')}</div>`:''}</div></div>`;}).join('')}</div>
+      <div class="sec">공부법</div><div class="why">${d.method}</div>
+      <div class="sec">✅ 통과 기준</div><div class="pass">${d.pass}</div>
+      <div class="sec">→ 배운 게 나중에 어디에 쓰이나 · 칩을 누르면 그 단계로 이동</div><div class="links" style="flex-direction:column;align-items:stretch;gap:10px">${d.uses.map(u=>`<div><span class="linkchip" data-to="${u.to}"><span class="d" style="background:${LAYER_META[byId[u.to].li].color}"></span>${u.label}</span>${u.note?`<div style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px">${u.note}</div>`:''}</div>`).join('')}</div>
+      <div class="sec">자료</div><div class="why">${d.resource}</div>`;
+  }else{
+    const neigh=[...adj[d.id]].map(id=>byId[id]);
+    pbody.innerHTML=`<div class="sec">원자 단위 · 하나씩 체크</div>
+      <div class="atoms">${d.subs.map((s,si)=>{const k=d.id+'_'+si,on=atoms[k];return `<div class="atom ${on?'on':''}" data-k="${k}"><div class="acheck"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div><div><div class="atom-t">${s.t}</div>${s.ex?`<div class="atom-ex">${s.ex.replace(/`([^`]+)`/g,'<code>$1</code>')}</div>`:''}</div></div>`;}).join('')}</div>
+      <div class="sec">왜 중요</div><div class="why">${d.why}</div>
+      ${neigh.length?`<div class="sec">연결된 개념 · 탭하면 이동</div><div class="links">${neigh.map(n=>`<span class="linkchip" data-to="${n.id}"><span class="d" style="background:${LAYER_META[n.li].color}"></span>${n.t}</span>`).join('')}</div>`:''}`;
+  }
+  pbody.querySelectorAll('.atom').forEach(a=>a.addEventListener('click',()=>{const k=a.dataset.k;if(atoms[k])delete atoms[k];else atoms[k]=true;a.classList.toggle('on');paintCard(d);paintLayer(d.li);refresh();save();}));
+  pbody.querySelectorAll('.linkchip').forEach(c=>c.addEventListener('click',()=>jumpTo(c.dataset.to)));
+  panel.classList.add('open'); overlay.classList.add('show');
+}
+function closePanel(){panel.classList.remove('open');overlay.classList.remove('show');curId=null;}
+document.getElementById('pclose').addEventListener('click',closePanel); overlay.addEventListener('click',closePanel);
+
+async function save(){try{await window.storage.set(STORAGE_KEY,JSON.stringify({atoms,labs}),false);}catch(e){}}
+async function load(){try{const r=await window.storage.get(STORAGE_KEY,false);if(r&&r.value){const o=JSON.parse(r.value)||{};atoms=o.atoms||{};labs=o.labs||{};}}catch(e){atoms={};labs={};}
+  allNodes.forEach(paintCard);LAYER_META.forEach((_,li)=>{paintLayer(li);paintLab(li);});refresh();}
+document.getElementById('resetBtn').addEventListener('click',async()=>{atoms={};labs={};allNodes.forEach(paintCard);LAYER_META.forEach((_,li)=>{paintLayer(li);paintLab(li);});refresh();await save();if(curId)openNode(byId[curId]);});
+load();
+</script>
+</body>
+</html>
