@@ -1012,6 +1012,62 @@
         scroll-behavior: auto !important
       }
     }
+    /* ===== tabs & quiz ===== */
+    .tabs{display:flex;gap:8px;justify-content:center;padding:14px 16px 0}
+    .tab{font-family:var(--mono);font-size:12.5px;padding:9px 20px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;transition:.15s}
+    .tab.on{color:#0a0f17;background:linear-gradient(90deg,#5eead4,#60a5fa);border-color:transparent;font-weight:700}
+    .tab:not(.on):hover{color:var(--ink);border-color:var(--muted)}
+    .quizwrap{max-width:740px;margin:26px auto 0;padding:0 20px 40px}
+    .qh h2{font-size:clamp(20px,5vw,27px);font-weight:700;letter-spacing:-.02em}
+    .qh h2 .mono{display:block;font-family:var(--mono);font-weight:500;color:var(--muted);font-size:.5em;margin-top:6px}
+    .qh p{color:var(--muted);font-size:13.5px;margin-top:10px}
+    .qcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px;margin-top:20px}
+    .qcard{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--qc);border-radius:14px;padding:17px}
+    .qcard .em{font-size:26px}
+    .qcard h3{margin:8px 0 3px;font-size:16.5px}
+    .qcard .lvl{font-family:var(--mono);font-size:10px;color:var(--qc);letter-spacing:.1em}
+    .qcard .crit{font-size:12.5px;color:var(--muted);line-height:1.55;min-height:56px;margin-top:6px}
+    .qcard .best{font-family:var(--mono);font-size:11px;color:var(--faint);margin:10px 0 12px}
+    .qbtns{display:flex;gap:8px}
+    .qbtn{flex:1;padding:9px 0;border-radius:9px;font-size:12.5px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-family:var(--disp)}
+    .qbtn:hover{color:var(--ink);border-color:var(--muted)}
+    .qbtn.go{background:var(--qc);color:#0a0f17;font-weight:700;border-color:transparent}
+    .qbtn.go:hover{filter:brightness(1.1);color:#0a0f17}
+    .qback{font-family:var(--mono);font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;padding:0 0 14px}
+    .qback:hover{color:var(--ink)}
+    .qnote{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--qc);border-radius:10px;padding:11px 14px;margin-bottom:8px}
+    .qnote b{display:block;font-size:13.5px;margin-bottom:3px}
+    .qnote span{font-size:12.5px;color:var(--muted);line-height:1.55}
+    .qtop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .qtop .qlv{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--qc);border:1px solid var(--qc);border-radius:99px;padding:3px 10px}
+    .qtop .qn{font-family:var(--mono);font-size:12px;color:var(--muted);flex:1}
+    .qtop .qstreak{font-family:var(--mono);font-size:12px;color:#fb923c}
+    .qbar{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+    .qbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--qc),#60a5fa);transition:width .3s}
+    .qq{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;font-size:15.5px;font-weight:600;line-height:1.5}
+    .qopts{margin-top:14px}
+    .qopt{display:block;width:100%;text-align:left;padding:12px 14px;margin-top:8px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:13.5px;line-height:1.45;cursor:pointer;transition:.12s;font-family:var(--disp)}
+    .qopt:hover:not(:disabled){border-color:var(--muted);transform:translateX(3px)}
+    .qopt:disabled{cursor:default}
+    .qopt.ok{background:#5eead41f;border-color:#5eead4}
+    .qopt.no{background:#f871711f;border-color:#f87171}
+    .qopt.dim{opacity:.4}
+    .qfb{margin-top:14px;border-radius:11px;padding:13px 15px;font-size:13.5px;line-height:1.6;display:none}
+    .qfb.ok{background:#5eead410;border:1px solid #5eead444;display:block}
+    .qfb.no{background:#f8717110;border:1px solid #f8717144;display:block}
+    .qfb .fbt{font-weight:700;margin-bottom:4px}
+    .qnext{margin-top:12px;width:100%;padding:13px;border-radius:10px;background:linear-gradient(90deg,#5eead4,#60a5fa);color:#0a0f17;font-weight:700;border:none;cursor:pointer;font-size:14px;display:none;font-family:var(--disp)}
+    .qres{text-align:center;padding:20px 0}
+    .qres .gem{font-size:52px}
+    .qres .grade{font-family:var(--mono);font-size:15px;color:var(--qc);margin-top:6px;font-weight:700}
+    .qres .sc{font-size:30px;font-weight:700;margin-top:10px}
+    .qres .msg{color:var(--muted);font-size:13.5px;margin-top:8px}
+    .qres .bestn{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:6px}
+    .qwrong{text-align:left;margin-top:22px}
+    .qwrong h4{font-size:13px;font-family:var(--mono);color:var(--faint);letter-spacing:.1em;margin-bottom:8px}
+    .qwr{background:var(--card);border:1px solid var(--line);border-left:3px solid #f87171;border-radius:10px;padding:11px 13px;margin-bottom:8px;font-size:12.5px;line-height:1.55}
+    .qwr b{color:#5eead4}
+    @media(max-width:560px){.qcards{grid-template-columns:1fr}}
   </style>
 </head>
 
@@ -1033,6 +1089,10 @@
     </div>
     <button class="rbtn" id="resetBtn">초기화</button>
   </div>
+  <div class="tabs">
+    <button class="tab on" data-view="road">🗺️ 로드맵</button>
+    <button class="tab" data-view="quiz">🎯 이론 퀴즈</button>
+  </div>
   <div class="intro">
     <h2>개념 + 실무, 두 트랙으로<span class="mono">RISC-V SoC · Synopsys DC → ICC2 → PrimeTime → IC Validator</span></h2>
     <p>카드(개념)는 "무엇을 이해하나", 🔧<b>실무 트랙</b>은 "어떤 툴에 무슨 명령을 치고 어떤 리포트를 보나". 시놉시스 상용 flow 기준이라 그대로 실무·면접에서 쓰입니다.</p>
@@ -1041,6 +1101,7 @@
   </div>
   <div class="road" id="road"></div>
   <footer>BOTTOM-UP · L0 → L9 · 손으로 풀고 직접 짜면, 그게 포트폴리오입니다.</footer>
+  <div class="quizwrap" id="quizview" style="display:none"></div>
   <div class="overlay" id="overlay"></div>
   <div class="panel" id="panel">
     <div class="ph">
@@ -2173,6 +2234,233 @@
       if (curId) openNode(byId[curId]);
     });
     load();
+
+    /* ================= 이론 퀴즈 ================= */
+    const QBEST_KEY = 'asic-quiz-best';
+    const QUIZ = {
+      easy: {
+        key: 'easy', name: '하 · 용어', em: '🌱', color: '#5eead4',
+        crit: '단어의 영문(약자)과 뜻을 안다. 예: "STA가 뭐의 약자고 무슨 뜻?"에 즉답.',
+        notes: [
+          ['RTL — Register Transfer Level', '레지스터 간 데이터 이동으로 회로를 기술하는 수준. 우리가 짜는 설계 코드.'],
+          ['Netlist', '합성 결과물. 게이트(셀)들의 연결 목록.'],
+          ['SDC — Synopsys Design Constraints', '클럭 주기·IO 지연 등 "이 속도로 동작해야 함"을 선언하는 제약 파일.'],
+          ['.lib (Liberty) / LEF', '.lib = 셀의 타이밍·전력 표(합성·STA용), LEF = 셀의 물리 외형·핀(배치·배선용).'],
+          ['PDK — Process Design Kit', '파운드리가 주는 공정 키트(셀 라이브러리+규칙+모델).'],
+          ['P&R / Floorplan / CTS', 'P&R=배치·배선, Floorplan=칩 평면 밑그림, CTS=Clock Tree Synthesis(클럭 균형 분배).'],
+          ['STA — Static Timing Analysis', '시뮬 없이 모든 경로의 타이밍을 정적으로 검사.'],
+          ['Setup / Hold / Slack', 'Setup=클럭 전 안정 시간, Hold=클럭 후 유지 시간, Slack=요구−도착(음수면 위반).'],
+          ['WNS / TNS', 'WNS=가장 나쁜(음수) slack, TNS=음수 slack의 총합.'],
+          ['DRC / LVS / LEC', 'DRC=제조 규칙 검사, LVS=레이아웃↔넷리스트 일치, LEC=논리 등가검증(Formality).'],
+          ['PPA / UPF / GDSII', 'PPA=Power·Performance·Area, UPF=저전력 의도 기술 표준, GDSII=파운드리에 주는 최종 레이아웃 파일.'],
+        ],
+        qs: [
+          { q: 'RTL은 무엇의 약자일까?', o: ['Register Transfer Level', 'Real Time Logic', 'Register Timing Layout', 'Rapid Transfer Level'], a: 0, ex: '레지스터 사이의 데이터 이동/연산으로 회로를 기술하는 추상화 수준이에요. 우리가 짜는 코드가 RTL.' },
+          { q: 'STA는 무엇의 약자일까?', o: ['Static Timing Analysis', 'System Timing Architecture', 'Standard Test Analysis', 'Signal Transition Approval'], a: 0, ex: '정적 타이밍 분석 — 시뮬레이션 없이 모든 경로의 타이밍을 검사해요.' },
+          { q: 'GDSII는 무엇일까?', o: ['파운드리에 전달하는 최종 레이아웃(도형) 파일', '게이트 시뮬레이션 결과 파일', '전력 분석 리포트 포맷', '합성 스크립트 언어'], a: 0, ex: '모든 층의 도형 정보를 담은 최종 산출물. GDSII를 넘기는 게 tape-out이에요.' },
+          { q: 'SDC는 무엇의 약자일까?', o: ['Synopsys Design Constraints', 'Standard Delay Calculation', 'Silicon Design Checker', 'System Data Configuration'], a: 0, ex: '클럭·IO 등 설계 제약을 담는 파일. create_clock이 여기 들어가요.' },
+          { q: 'P&R은 무엇을 뜻할까?', o: ['Place and Route — 배치와 배선', 'Power and Reset — 전원과 리셋', 'Pin and Rail — 핀과 레일', 'Program and Run — 실행'], a: 0, ex: '셀을 놓고(Place) 금속으로 잇는(Route) 물리 구현의 핵심 두 단계.' },
+          { q: 'CTS는 무엇의 약자일까?', o: ['Clock Tree Synthesis', 'Cell Timing System', 'Critical Time Setup', 'Chip Test Standard'], a: 0, ex: '클럭을 모든 FF에 균형 있게 분배하는 클럭 트리 합성이에요.' },
+          { q: 'DRC는 무엇을 검사할까?', o: ['설계가 공정의 제조 규칙(간격·폭 등)을 지켰는지', '코드 문법 오류', '전력 소비량', '클럭 주파수'], a: 0, ex: 'Design Rule Check — 제조 가능하려면 위반 0이어야 해요.' },
+          { q: 'LVS는 무엇과 무엇을 비교할까?', o: ['Layout ↔ Schematic(netlist)', 'Library ↔ Verilog Source', 'Logic ↔ Voltage Source', 'Latch ↔ Scan'], a: 0, ex: '그린 레이아웃이 의도한 회로(넷리스트)와 연결까지 같은지 대조해요.' },
+          { q: 'PPA는 무엇의 약자일까?', o: ['Power, Performance, Area', 'Place, Pin, Antenna', 'Process, Package, Assembly', 'Path, Phase, Arrival'], a: 0, ex: '칩 설계의 3대 지표 — 전력·성능·면적. 우리 결과물 중 하나예요.' },
+          { q: 'WNS는 무엇일까?', o: ['Worst Negative Slack — 가장 나쁜 slack', 'Wire Net Summary — 배선 요약', 'Weak Node Signal — 약한 신호', 'Width Normalized Size — 정규화 크기'], a: 0, ex: '모든 경로 중 최악의 slack. 0 이상이어야 타이밍 통과.' },
+          { q: 'PDK는 무엇의 약자일까?', o: ['Process Design Kit', 'Physical Data Kernel', 'Power Distribution Kit', 'Pin Definition Key'], a: 0, ex: '파운드리가 주는 공정 키트 — 셀 라이브러리, 규칙, 모델이 들어있어요.' },
+          { q: 'Netlist는 무엇일까?', o: ['게이트(셀)들의 연결 목록', 'RTL 원본 코드', '인터넷 회선 목록', '전원 배선 지도'], a: 0, ex: '합성의 산출물. "이 셀 출력→저 셀 입력"의 명세예요.' },
+          { q: '.lib(Liberty) 파일에 담긴 것은?', o: ['셀별 타이밍(지연)·전력 정보', '셀의 물리적 모양과 핀 위치', '배선 금지 구역', '테스트벤치 코드'], a: 0, ex: '합성과 STA가 타이밍을 계산하는 근거가 되는 셀 특성표예요.' },
+          { q: 'LEF 파일에 담긴 것은?', o: ['셀의 물리적 외형 — 크기·핀 위치·금속층', '셀의 지연 시간 표', '클럭 트리 구조', '전력 소비 이력'], a: 0, ex: 'Layout abstract — 배치·배선이 셀의 겉모양·핀만 알면 되게 해줘요.' },
+          { q: 'Setup time이란?', o: ['클럭 엣지 "전"에 데이터가 안정돼 있어야 하는 시간', '클럭 엣지 "후"에 데이터가 유지돼야 하는 시간', '전원이 켜지는 데 걸리는 시간', '툴 초기 설정 시간'], a: 0, ex: 'FF가 값을 제대로 잡으려면 클럭 직전에 데이터가 미리 도착해 있어야 해요.' },
+          { q: 'Hold time이란?', o: ['클럭 엣지 "후"에도 데이터가 유지돼야 하는 시간', '클럭 엣지 "전"에 데이터가 안정될 시간', '버튼을 누르고 있는 시간', '리셋 유지 시간'], a: 0, ex: '클럭 직후 새 데이터가 너무 빨리 와서 덮으면 안 되는, 유지 요구 시간이에요.' },
+          { q: 'Slack의 정의는?', o: ['요구시간 − 도착시간 (여유)', '도착시간 − 요구시간', '클럭 주기 × 2', '지연의 평균값'], a: 0, ex: '양수면 여유 있게 통과, 음수면 위반. STA 리포트의 핵심 숫자예요.' },
+          { q: 'Congestion이란?', o: ['배선 수요가 공급(트랙)을 초과해 몰리는 것', '셀이 과열되는 현상', '클럭이 지연되는 것', '전압이 떨어지는 것'], a: 0, ex: '배선이 특정 구역에 몰려 막히는 것. 우리 결과물 "Congestion Analysis"가 이걸 분석해요.' },
+          { q: 'UPF는 무엇의 약자일까?', o: ['Unified Power Format', 'Universal Pin Function', 'Ultra Performance Flow', 'Un-routed Path File'], a: 0, ex: '전력 도메인·isolation 같은 저전력 "의도"를 기술하는 표준이에요. VC LP가 이걸 검증.' },
+          { q: 'LEC(Formality가 하는 일)는?', o: ['Logic Equivalence Check — 두 설계의 논리 동일성 증명', 'Layout Error Correction — 레이아웃 수정', 'Low Energy Computing — 저전력 연산', 'Library Export Control — 라이브러리 관리'], a: 0, ex: '합성 전 RTL과 합성 후 netlist의 논리가 같은지 수학적으로 증명해요.' },
+        ]
+      },
+      mid: {
+        key: 'mid', name: '중 · Flow', em: '🌊', color: '#60a5fa',
+        crit: 'RTL-to-GDSII 흐름을 안다. 각 단계의 순서·입출력·담당 툴을 연결할 수 있다.',
+        notes: [
+          ['⓪ flow의 대원칙 2가지', '(1) 각 단계의 출력이 다음 단계의 입력 — 데이터 의존성이 순서를 결정한다. (2) 문제는 상류에서 잡을수록 싸다 — 뒤로 갈수록 수정 비용이 폭증한다.'],
+          ['① Synthesis (DC/Genus)', '입력: RTL + SDC + .lib → 출력: gate netlist. 논리를 실제 셀로 매핑.'],
+          ['② Floorplan (ICC2/Innovus)', 'die/core 크기, utilization, macro 배치, PDN(전원망) 구성.'],
+          ['③ Placement', '셀 배치 + Congestion 분석·해소 + timing-driven 최적화.'],
+          ['④ CTS', '클럭 트리 삽입, skew 최소화. ★직후 hold 위반 급증 주의.'],
+          ['⑤ Routing', 'global→detailed 배선, DRC 정리, antenna 처리.'],
+          ['⑥ 기생 추출 (StarRC)', '배선의 실제 R/C를 뽑아 SPEF 파일로 — STA의 입력.'],
+          ['⑦ STA (PrimeTime/Tempus)', 'setup=느린(SS) 코너, hold=빠른(FF) 코너로 signoff.'],
+          ['⑧ 검증', 'Formality(LEC), DRC, LVS — 전부 clean이어야 함.'],
+          ['⑨ GDSII', '모든 signoff 통과 후 stream out = tape-out 🎉'],
+          ['툴 대응 (Synopsys↔Cadence)', 'DC↔Genus · ICC2↔Innovus · PrimeTime↔Tempus · Formality↔Conformal.'],
+        ],
+        qs: [
+          { q: '왜 합성이 Floorplan보다 먼저일까?', o: ['Floorplan은 배치할 셀의 개수·면적(netlist)을 알아야 계획할 수 있는데, 그 netlist를 합성이 만들기 때문', 'Floorplan 결과가 있어야 합성에 쓸 라이브러리를 고를 수 있기 때문', '합성이 클럭 트리를 만들어야 Floorplan이 가능하기 때문', 'RTL 시뮬레이션이 Floorplan 이후에만 가능하기 때문'], a: 0, ex: 'flow의 순서 = 데이터 의존성. "무엇을 놓을지"가 정해져야 "어디에 놓을지"를 계획할 수 있어요. 클럭 트리는 훨씬 뒤(CTS)의 일.' },
+          { q: '왜 CTS는 Placement "후"에 할까?', o: ['클럭을 받을 FF들의 위치가 확정돼야 트리를 어느 방향·거리로 뻗을지 계산할 수 있어서', 'Placement가 클럭 버퍼를 미리 만들어 두기 때문', 'CTS가 배치 결과를 초기화하고 다시 배치하기 때문', 'Routing이 끝나야 클럭 배선이 가능하기 때문'], a: 0, ex: '트리의 목적지는 FF예요. 목적지 좌표 없이 균형 잡힌 트리를 설계할 수 없죠. (CTS는 Routing "전"이니 마지막 보기는 순서도 반대!)' },
+          { q: '왜 CTS는 Routing "전"에 할까?', o: ['CTS는 버퍼를 새로 심고 셀을 움직이는 작업이라, 배선이 다 깔린 뒤에 하면 배선을 대규모로 뜯어야 해서', '클럭 net은 배선이 필요 없는 특수 신호라서', 'Routing 툴이 클럭 도메인을 인식하지 못해서', 'CTS 리포트가 있어야 라우터가 실행되는 구조라서'], a: 0, ex: '클럭 net은 오히려 가장 정성 들여 배선(NDR)해요. 다만 "셀 추가·이동"이 있는 CTS를 배선 후에 하면 재작업 폭탄이죠.' },
+          { q: 'signoff STA가 Routing "후"에야 의미 있는 이유는?', o: ['실제 배선의 기생 RC(SPEF)가 있어야 진짜 지연으로 계산되기 때문 — 그 전 타이밍은 전부 추정치', 'Routing 전에는 클럭이 아예 존재하지 않기 때문', 'PrimeTime이 placement 데이터베이스를 읽지 못하기 때문', 'Routing이 slack을 자동으로 0 이상으로 맞춰주기 때문'], a: 0, ex: '배선 지연은 실물이 있어야 정확해요. 클럭은 CTS(라우팅 전)에 이미 생기니 두 번째 보기는 함정 — 핵심은 기생 RC.' },
+          { q: 'SPEF 없이 STA를 돌리면 어떻게 될까?', o: ['배선 지연이 모델 추정으로 계산돼 결과가 나오긴 하지만, signoff로 믿을 수 없다', '기생 정보가 없으므로 툴이 에러를 내며 실행되지 않는다', '셀 지연까지 0으로 계산돼 모든 경로가 통과로 나온다', 'hold 검사만 수행되고 setup은 건너뛴다'], a: 0, ex: '돌긴 돌아요(추정 모델 사용). 문제는 "부정확"이라는 것 — 그래서 signoff엔 반드시 실측 기생(SPEF)이 필요해요.' },
+          { q: '배치 후 congestion overflow가 심각하다. 흐름상 가장 논리적인 다음 행동은?', o: ['Floorplan/배치 설정(utilization·매크로·blockage)으로 되돌아가 원인을 제거하고 재배치한다', '그대로 Routing을 진행한다 — detailed router가 알아서 풀어준다', 'CTS를 먼저 수행해 클럭으로 혼잡을 분산시킨다', 'STA를 돌려 slack이 양수인지 먼저 확인한다'], a: 0, ex: '혼잡의 원인은 배치·평면에 있어요. 뒤 단계(라우터)에 떠넘기면 우회 배선으로 타이밍까지 망가져요. 앞으로 돌아가는 게 빠른 길.' },
+          { q: '합성 직후 Formality는 흐름상 무엇과 무엇을 잇는 검증일까?', o: ['변환 전 RTL ↔ 변환 후 gate netlist — 변환 단계마다 논리 동일성을 보증', 'netlist ↔ layout — 물리 연결의 일치', 'SDC ↔ RTL — 제약과 코드의 일치', '.lib ↔ .lef — 라이브러리 정합성'], a: 0, ex: 'flow는 변환의 연속이고, 변환마다 "안 바뀌었지?"를 보증해야 해요. netlist↔layout은 훨씬 뒤 LVS의 몫.' },
+          { q: 'CTS 후 리포트에 hold 위반이 갑자기 늘었다. 흐름상 원인은?', o: ['CTS 전 STA는 스큐 0의 이상적 클럭을 가정했는데, 실제 트리의 skew가 반영되며 마진이 재계산됐기 때문', 'CTS가 데이터 경로의 셀을 삭제했기 때문', 'Routing이 아직 안 돼서 생기는 일시적 리포트 오류이기 때문', 'CTS가 SDC의 클럭 주기를 자동으로 줄였기 때문'], a: 0, ex: '"없던 위반이 생긴" 게 아니라 "가려져 있던 현실이 드러난" 거예요. 그래서 post-CTS hold 점검이 flow의 필수 관문.' },
+          { q: '왜 PDN(전원망)은 신호 배선(Routing)보다 먼저 깔까?', o: ['전원은 상위 금속의 굵은 자원을 선점해야 하는데, 신호가 먼저 깔리면 전원 그물이 들어갈 자리가 없어서', '신호 배선이 전원 배선보다 얇아 순서는 사실 무관하기 때문', 'PDN이 신호 배선 경로를 자동으로 생성해 주기 때문', '전원은 GDSII 추출 단계에서 마지막에 추가되기 때문'], a: 0, ex: '인프라(전원) 먼저, 입주(신호)는 나중 — 도시 계획과 같아요. 반대로 하면 재개발(대규모 재배선) 비용이 터져요.' },
+          { q: 'ICC2에 디자인을 올릴 때 필요한 입력 3종 세트는?', o: ['gate netlist(합성 출력) + 물리 라이브러리(NDM/LEF) + 제약(SDC/MMMC)', 'RTL 코드 + 테스트벤치 + 시뮬 파형', 'GDSII + SPEF + DRC runset', '.lib 파일 하나면 충분하다'], a: 0, ex: '"무엇을(netlist), 무슨 부품 정보로(물리 lib), 어떤 목표로(제약)". RTL·파형은 앞 단계, GDSII·SPEF는 뒤 단계 산출물이에요.' },
+          { q: 'Routing이 끝났다. GDSII 추출 전 흐름상 반드시 남은 일은?', o: ['기생 추출→signoff STA, 그리고 DRC/LVS 검증 — 전부 clean이어야 stream out', 'Floorplan을 한 번 더 실행해 면적을 재확인한다', 'RTL 시뮬레이션을 다시 돌리면 충분하다', '없다 — routing 완료가 곧 tape-out이다'], a: 0, ex: '배선 완료는 "다 만들었다"지 "맞게 만들었다"가 아니에요. signoff(타이밍+물리 검증)가 flow의 마지막 관문.' },
+          { q: '왜 Lint·RTL 시뮬은 합성 "전"에 끝내야 할까?', o: ['논리가 틀리면 뒤 단계 전부가 무효 — 문제는 상류에서 잡을수록 수정 비용이 싸기 때문', '합성 후에는 어떤 시뮬레이션도 불가능하기 때문', 'Lint가 gate netlist를 입력으로 요구하기 때문', '시뮬레이터가 배치 좌표를 필요로 하기 때문'], a: 0, ex: '합성 후에도 gate-level 시뮬은 가능해요(두 번째 보기는 함정). 요점은 비용 — 버그는 늦게 잡을수록 기하급수로 비싸져요.' },
+          { q: 'report_congestion은 어느 단계의 출력이고, 무엇을 결정하는 데 쓰일까?', o: ['Placement의 출력 — utilization·매크로·blockage 조정 여부와 "이대로 배선 가능한가"를 판단', 'Routing의 출력 — 클럭 skew 목표를 정하는 데 사용', '합성의 출력 — 셀 라이브러리 교체를 판단', 'STA의 출력 — 검사할 코너를 고르는 데 사용'], a: 0, ex: '혼잡은 배치 밀도의 함수라 placement에서 보고, 라우팅 실패를 미리 막는 조기 경보로 써요.' },
+          { q: 'setup(SS)과 hold(FF)를 "함께" 닫아야 하는 흐름상의 이유는?', o: ['한쪽을 고치는 수정(지연 추가·제거)이 반대쪽을 악화시킬 수 있어, 양쪽 코너를 동시에 만족해야 진짜 통과라서', '툴이 한 번에 한 코너만 로드할 수 있기 때문', 'setup만 통과하면 hold는 자동으로 통과하기 때문', 'SS와 FF는 같은 결과를 내므로 서로 확인용이기 때문'], a: 0, ex: 'hold 잡으려 지연을 넣으면 setup이 나빠질 수 있어요 — 시소 게임. 그래서 MMMC로 전 시나리오를 "동시에" signoff해요.' },
+          { q: '합성 QoR에서 WNS가 이미 큰 음수다. 흐름상 옳은 대응은?', o: ['PnR로 넘어가지 않고 제약·RTL·합성 전략부터 수정한다 — 실배선이 붙으면 더 나빠질 일만 남아서', '일단 Routing까지 진행해 실측 지연으로 다시 판단한다', 'CTS가 클럭을 최적화하며 자연히 해결되므로 진행한다', 'GDSII를 추출해 파운드리 측 분석을 요청한다'], a: 0, ex: '합성 타이밍은 낙관 추정 — 지금 음수면 뒤에선 더 음수예요. 상류로 돌아가는 게 유일한 정답.' },
+          { q: '왜 LVS는 Routing 이후에야 의미가 있을까?', o: ['비교 대상인 "실제 연결(레이아웃의 배선)"이 그때 완성되기 때문', 'LVS 실행 시간이 길어 마지막에 몰아 돌리는 관행일 뿐이라서', 'Routing 전에는 netlist가 존재하지 않기 때문', 'LVS가 clock tree 정보를 입력으로 요구하기 때문'], a: 0, ex: 'LVS = layout vs netlist. netlist는 합성 때부터 있어요(세 번째 보기 함정) — 없던 건 "그린 대로의 연결"이죠.' },
+          { q: 'Genus→Innovus→Tempus와 DC→ICC2→PT의 순서가 같은 이유는?', o: ['회사가 달라도 "합성→물리 구현→signoff STA"라는 데이터 의존 구조 자체는 동일하기 때문', '두 회사가 동일한 엔진 코드를 라이선스로 공유하기 때문', '업계 표준 문서가 실행 순서를 법적으로 강제하기 때문', '우연의 일치일 뿐 순서를 바꿔도 무방하기 때문'], a: 0, ex: '툴은 바뀌어도 flow의 논리는 동일해요. 한 회사 flow를 제대로 이해하면 다른 툴도 금방 — 우리 비교 프로젝트의 핵심 가설!' },
+          { q: '타이밍 ECO(셀 교체·버퍼 삽입) 후 Formality를 다시 돌리는 이유는?', o: ['netlist를 수정할 때마다 논리가 보존됐는지 재보증해야 하기 때문 — 검증은 변경이 있을 때마다', 'ECO가 SDC 제약을 함께 수정하기 때문', 'Formality가 남은 타이밍 위반을 대신 수정해 주기 때문', '툴 정책상 24시간마다 재실행이 요구되기 때문'], a: 0, ex: '버퍼 하나도 "netlist 변경"이에요. 등가검증은 1회성 이벤트가 아니라 변경마다 따라붙는 안전벨트.' },
+          { q: 'Floorplan의 utilization 결정이 최종 타이밍까지 영향을 주는 연결 고리는?', o: ['util↑ → 셀 밀집 → 배선 트랙 부족 → congestion → 우회 배선 → RC 지연 증가 → 타이밍 악화', 'util은 GDSII 파일 크기에만 영향을 준다', 'util이 높을수록 셀 간 거리가 줄어 타이밍은 항상 좋아진다', 'util은 STA 코너 선택을 바꿔 타이밍 기준 자체를 바꾼다'], a: 0, ex: '앞 단계 숫자 하나가 네 단계 뒤 품질을 결정해요. (세 번째 보기가 함정 — 거리가 줄어도 "못 지나가면" 우회로 더 길어져요.)' },
+          { q: '지금 손에 netlist.v + top.sdc + 물리 라이브러리(NDM)가 있다. 나는 flow의 어디쯤일까?', o: ['합성이 끝났고, 물리 구현(Floorplan)에 들어가기 직전', 'RTL 검증 직전 — 아직 합성 전', 'signoff 직전 — SPEF만 있으면 GDSII', 'tape-out 완료 후 정리 단계'], a: 0, ex: '산출물이 곧 위치 정보예요. netlist(합성 완료)+제약+물리 lib = PnR 입장권 세트. SPEF·GDSII가 없으니 뒷단은 아직.' },
+        ]
+      },
+      hard: {
+        key: 'hard', name: '상 · 왜?', em: '🔥', color: '#f87171',
+        crit: '논리적으로 "왜 필요한지" 설명할 수 있다. 면접에서 이유를 말할 수 있는 수준.',
+        notes: [
+          ['setup=SS / hold=FF 코너인 이유', 'setup의 최악은 "가장 늦게 도착"(지연 최대=SS), hold의 최악은 "가장 일찍 도착"(지연 최소=FF).'],
+          ['CTS 후 hold가 터지는 이유', '이상적(스큐 0)이던 클럭이 실제 트리가 되며 skew 발생 → hold 마진 침식.'],
+          ['hold가 setup보다 무서운 이유', 'setup은 클럭을 낮추면 살지만, hold는 주파수 무관 — 어떤 클럭에서도 오동작.'],
+          ['합성서 못 맞추면 PnR서 못 맞추는 이유', '합성은 배선을 낙관 추정. 실제 배선이 붙으면 지연은 늘기만 함.'],
+          ['utilization을 낮추는 이유', '너무 빽빽하면 배선 트랙 부족 → congestion → 우회 배선 → 타이밍 악화.'],
+          ['PDN을 초기에 잡는 이유', '전원은 상위 금속을 선점해야 하고, IR drop은 나중에 고치기 매우 어려움.'],
+          ['시뮬을 통과해도 LEC가 필요한 이유', '시뮬은 넣어본 입력만 검증. 논리 동일성은 전 경우를 수학적으로 증명해야 함.'],
+          ['macro를 가장자리에 두는 이유', '중앙에 두면 배선 통로 차단 → 주변 congestion + 셀 영역 분절.'],
+          ['STA가 시뮬 없이 완전한 이유', '입력 벡터와 무관하게 모든 경로를 최악 조건으로 정적 분석 — 빠짐이 없음.'],
+          ['clock gating이 전력을 줄이는 이유', '클럭은 매 사이클 토글하는 최대 스위칭원 — 안 쓸 때 차단하면 dynamic power 급감.'],
+        ],
+        qs: [
+          { q: '왜 setup은 "느린(SS)" 코너에서 검사할까?', o: ['지연이 최대인 조건에서 데이터가 가장 늦게 도착 — "늦게 도착"이 setup의 최악이라, 여기서 통과하면 더 빠른 조건은 자동 통과라서', '느린 코너에서는 hold 마진도 함께 최악이 되어 한 번에 둘 다 검증할 수 있어서', 'SS 코너가 전압·온도 변동이 가장 커서 통계적으로 가장 대표성이 높아서', '셀 지연이 길수록 slack 계산이 보수적으로 단순해져 signoff가 빨라져서'], a: 0, ex: '핵심은 "검사마다 최악 조건이 다르다". hold의 최악은 정반대(빠른 코너)라 두 번째 보기가 함정 — 둘은 한 코너로 못 묶어요.' },
+          { q: '왜 hold는 "빠른(FF)" 코너에서 검사할까?', o: ['지연이 최소인 조건에서 새 데이터가 가장 일찍 도착 — 이전 값을 덮어버릴 위험이 최대가 되는 코너라서', '빠른 코너에서는 클럭 주기가 짧아져 hold 검사가 더 엄격해지기 때문', 'FF 코너는 누설 전력이 최대라 위반이 리포트에 가장 잘 드러나서', 'setup과 반대 코너를 쓴다는 signoff 규칙이 정해져 있어서'], a: 0, ex: '두 번째 보기가 최대 함정 — hold는 "같은 클럭 엣지"의 경주라 주기와 무관해요. 규칙이라서가 아니라 물리적 최악 조건이라서예요.' },
+          { q: '왜 CTS가 끝나면 hold 위반이 늘어날까?', o: ['그 전까지 스큐 0으로 가정하던 클럭이 실제 트리가 되며 skew가 생기고, 그만큼 hold 마진이 침식되기 때문', 'CTS가 hold를 검사하기 시작하는 첫 단계라, 이전엔 위반이 있어도 리포트에 안 보였을 뿐이라서', '클럭 버퍼가 추가되며 데이터 경로의 지연도 함께 길어지기 때문', '클럭 latency가 커지면 setup이 좋아진 만큼 hold가 나빠지는 보존 관계가 있어서'], a: 0, ex: 'hold 검사는 처음부터 항상 해요(두 번째 함정) — 다만 "이상적 클럭" 가정 위에서였죠. 현실(skew)이 등장하며 숫자가 바뀐 것.' },
+          { q: '왜 utilization을 너무 높게 잡으면 안 될까?', o: ['셀이 빽빽할수록 배선 트랙이 부족해져 congestion→우회 배선→지연 증가로 이어지기 때문', 'util이 높으면 셀 간 거리가 짧아져 타이밍은 좋아지지만, 발열 밀도 한계를 초과하기 때문', '높은 util은 전원 레일의 전류 밀도를 높여 EM 위반이 먼저 발생하기 때문', '표준셀 라이브러리가 70% 이상의 밀도에서는 동작을 보증하지 않기 때문'], a: 0, ex: '두 번째 보기의 앞부분(거리↓)이 사실이라 함정 — 하지만 배선이 "지나갈 수 없으면" 우회로 오히려 길어져요. 주범은 발열이 아니라 배선 자원.' },
+          { q: '왜 합성에서 타이밍을 못 맞추면 PnR에서 거의 못 맞출까?', o: ['합성은 배선 지연을 모델로 낙관 추정하는데, 실제 배선 RC가 붙으면 지연은 늘어나기만 하기 때문', 'PnR에서는 셀 크기를 바꿀 수 없어 타이밍을 개선할 수단이 없기 때문', '합성과 PnR은 서로 다른 지연 단위를 써서 결과를 비교할 수 없기 때문', 'PnR은 hold 최적화 전용이라 setup은 다루지 않기 때문'], a: 0, ex: 'PnR도 sizing·버퍼링 다 해요(두 번째 틀림). 문제는 방향 — 추정보다 현실이 항상 무거워요. 합성 WNS는 "선불"로 확보!' },
+          { q: '시뮬레이션을 통과했는데도 Formality(LEC)가 필요한 본질적 이유는?', o: ['시뮬은 넣어본 입력만 검증 — "모든 입력에서 동일"은 형식적(formal) 증명으로만 보장되기 때문', '게이트 시뮬레이션은 RTL 시뮬보다 훨씬 느려서 전체 재검증이 비현실적이기 때문', '합성 툴이 최적화 내역 로그를 남기지 않아 변경 추적이 불가능하기 때문', '테스트벤치가 netlist의 셀 인스턴스 이름을 인식하지 못하기 때문'], a: 0, ex: '두 번째 보기는 사실이지만 "본질"이 아니에요 — 아무리 빨라도 2^n 입력을 다 넣을 순 없죠. 완전성은 증명의 영역.' },
+          { q: '왜 macro(SRAM 등)는 보통 코어 가장자리·코너에 둘까?', o: ['중앙에 두면 사방의 배선 통로를 차단해 congestion을 만들고, std cell 영역을 조각내기 때문', '가장자리는 IO 패드와 가까워 매크로의 IR drop이 구조적으로 줄어들기 때문', '매크로는 발열이 커서 칩 중앙의 열 집중을 피해야 하기 때문', '중앙은 클럭 소스가 위치해야 하는 자리로 비워두는 CTS 관례 때문'], a: 0, ex: '전원·발열도 실무에서 보긴 해요(그래서 그럴듯) — 하지만 교과서적 주범은 "거대한 배선 장애물". 혼잡과 영역 분절이 핵심.' },
+          { q: '왜 PDN(전원망)을 Floorplan 단계에서 미리 잡을까?', o: ['전원은 상위 금속 자원을 크게 선점해야 하고, IR drop 문제는 배치·배선이 끝난 뒤엔 고치기 매우 어렵기 때문', '배치·배선이 전력 소비를 바꾸므로, 그 전에 측정 기준(baseline)을 고정해야 하기 때문', '전원망은 DRC 검사 대상이 아니라서 먼저 깔아도 위반 위험이 없기 때문', 'PDN이 있어야 congestion map이 생성되기 때문'], a: 0, ex: 'PDN도 당연히 DRC 대상이에요(세 번째 틀림). 논리는 "자원 선점 + 사후 수정 곤란" — 인프라는 항상 먼저.' },
+          { q: '왜 hold 위반이 setup 위반보다 치명적일까?', o: ['setup 위반은 클럭을 낮추면 피할 수 있지만, hold는 같은 엣지의 경주라 주파수와 무관 — 어떤 클럭에서도 오동작하기 때문', 'hold 위반은 특정 온도에서만 재현돼 출하 테스트로 걸러낼 수 없기 때문', 'hold 경로는 클럭 트리 내부에 숨어 있어 STA 리포트에 표시되지 않기 때문', 'hold 위반은 setup 위반보다 항상 개수가 많아 수정 비용이 크기 때문'], a: 0, ex: '요점은 "도망갈 구멍"이에요. setup은 느리게 돌리면 살 길이 있지만 hold는 없어요 — 그 칩은 그냥 불량.' },
+          { q: '왜 clock uncertainty를 미리 걸어둘까?', o: ['아직 반영되지 않은 skew·jitter 같은 미래의 불확실성을 마진으로 미리 빼두어, 실제 클럭이 생겨도 버티게 하려고', '클럭 주기를 실제보다 길게 보이게 해 합성의 최적화 부담을 줄이려고', '검사할 코너 수를 줄여 MMMC 실행 시간을 아끼기 위한 근사치라서', '파운드리 제출 서류에 요구되는 형식적 마진 항목이라서'], a: 0, ex: '방향이 반대예요(두 번째) — uncertainty는 가용 시간을 "깎아서" 더 빡빡하게 만들어요. 미래의 현실만큼 미리 아파두는 보험.' },
+          { q: '왜 STA는 시뮬레이션 없이도 "완전한" 검사가 될까?', o: ['입력 벡터와 무관하게, 구조상 존재하는 모든 경로를 최악 조건으로 계산하므로 원리적으로 누락이 없기 때문', '최신 STA는 머신러닝으로 가능한 모든 입력 벡터를 생성해 시뮬레이션하기 때문', '전체 대신 critical path 상위 일부만 보면 통계적으로 충분하다고 증명되어 있기 때문', 'STA가 기능 버그까지 함께 검출하므로 시뮬레이션을 완전히 대체하기 때문'], a: 0, ex: 'STA는 벡터를 아예 안 써요 — 그게 완전성의 비결. 대신 기능 검증은 못 하니 시뮬을 "대체"하는 건 아니에요(마지막 보기 함정).' },
+          { q: '왜 표준셀의 높이는 전부 같게 만들까?', o: ['높이가 같아야 row에 줄 맞춰 자동 배치되고, 이웃 셀과 전원 레일(VDD/VSS)을 맞대어 공유할 수 있기 때문', '높이가 같으면 셀 지연도 같아져 타이밍 계산이 단순해지기 때문', '포토마스크 공정이 동일 높이의 패턴만 안정적으로 노광할 수 있기 때문', '높이가 다르면 LVS가 셀 경계를 인식하지 못하기 때문'], a: 0, ex: '지연은 높이가 아니라 drive·부하로 갈려요(두 번째 함정). 핵심은 "자동화 가능한 규격" — 레고 블록이 끼워지는 이유와 같아요.' },
+          { q: '왜 LVT(빠른) 셀을 아무 데나 쓰면 안 될까?', o: ['LVT는 빠른 대신 누설(leakage) 전류가 커서, 남발하면 대기 전력이 폭증하기 때문', 'LVT 셀은 같은 기능이라도 면적이 훨씬 커서 congestion을 유발하기 때문', 'LVT는 setup을 좋게 하는 대신 그 경로의 hold를 반드시 위반시키기 때문', 'LVT는 별도의 전원 레일이 필요해 PDN을 재설계해야 하기 때문'], a: 0, ex: 'Vt는 문턱전압(임플란트) 차이라 면적은 같아요(두 번째 함정). 트레이드오프의 축은 속도↔누설 — 그래서 critical path에만 아껴 써요.' },
+          { q: '왜 hold 위반은 "지연을 추가"해서 고칠까?', o: ['hold는 데이터가 "너무 일찍" 도착하는 문제라, 경로에 지연을 넣어 도착을 늦추면 정확히 원인을 상쇄하기 때문', '버퍼가 신호를 증폭해 노이즈 마진을 확보해 주기 때문', '지연을 넣으면 같은 경로의 setup slack도 함께 좋아지기 때문', '클럭 쪽을 수정하면 트리 전체가 재합성되므로 어떤 경우에도 데이터 쪽만 고쳐야 하기 때문'], a: 0, ex: 'setup은 오히려 나빠질 수 있어요(세 번째는 반대) — 그래서 hold fix는 setup 여유가 있는 경로에 조심히. 버퍼의 증폭 효과는 사실이지만 "이유"가 아니에요.' },
+          { q: '왜 MMMC(멀티 코너·모드)가 필요할까?', o: ['칩은 다양한 공정·전압·온도 조합에서 동작해야 하고, 한 코너의 통과가 다른 조합의 동작을 보장하지 않기 때문', 'TT(typical) 코너가 가장 정확하므로 나머지 코너는 참고용으로만 도는 것이기 때문', '모드(functional/test)가 다르면 netlist가 달라져 각각 재합성이 필요하기 때문', '코너가 많을수록 평균 slack이 좋아져 signoff 통과가 쉬워지기 때문'], a: 0, ex: '모드가 달라도 netlist는 하나 — 달라지는 건 제약(SDC)이에요(세 번째 함정). 실리콘은 평균이 아니라 "최악"에서 살아남아야 해요.' },
+          { q: '왜 antenna diode를 넣을까?', o: ['제조(식각) 중 긴 금속에 쌓인 플라즈마 전하가 게이트 산화막을 파괴할 수 있어, 전하를 흘려보낼 방전 경로를 만들어 주는 것', '동작 중 발생하는 정전기(ESD)로부터 IO 패드를 보호하는 것과 같은 원리라서', '긴 배선의 신호 반사를 흡수해 signal integrity를 개선하기 때문', '다이오드가 배선의 RC 지연을 일부 상쇄해 주기 때문'], a: 0, ex: 'ESD와 헷갈리기 딱 좋아요(두 번째 함정) — ESD는 "동작·취급 중", antenna는 "제조 중" 문제. 시점이 완전히 달라요.' },
+          { q: '왜 DRC 위반은 단 1개도 허용되지 않을까?', o: ['설계 규칙은 공정의 물리적 한계 — 위반은 단선·단락 등 제조 불량으로 직결되고, 파운드리가 접수 자체를 거부하기 때문', '위반이 하나라도 있으면 GDSII 파일 생성이 툴에서 차단되기 때문', 'DRC 위반은 곧 LVS 불일치를 의미해 논리가 틀렸다는 뜻이기 때문', '위반 개수에 비례해 마스크 제작 비용이 추가되기 때문'], a: 0, ex: 'GDSII는 위반이 있어도 뽑혀요(두 번째 틀림) — 안 받아주는 건 파운드리. DRC(제조 가능)와 LVS(연결 일치)는 별개 검사예요(세 번째 함정).' },
+          { q: '왜 congestion이 심하면 타이밍까지 나빠질까?', o: ['막힌 곳을 피해 우회 배선하면 net이 길어져 RC 지연이 커지고, 빽빽한 배선끼리 crosstalk도 늘기 때문', '혼잡 구역은 전압 강하(IR drop)가 심해져 셀 자체가 느려지기 때문', '라우터가 혼잡을 만나면 타이밍이 급한 net부터 배선을 포기하기 때문', '혼잡 구역의 셀은 자동으로 더 작은(느린) 셀로 교체되기 때문'], a: 0, ex: 'IR drop은 전원망 문제로 별개 축이에요(두 번째 함정). 배선 혼잡의 직격탄은 "우회로 길어진 전선" — 경로가 늘면 RC가 늘죠.' },
+          { q: '왜 clock gating으로 전력이 크게 줄까?', o: ['클럭은 매 사이클 토글하는 최대의 스위칭원이라, 유휴 블록의 클럭만 차단해도 dynamic power가 크게 줄기 때문', '클럭을 막으면 해당 블록의 누설(leakage) 전력까지 0이 되기 때문', '게이팅 셀이 클럭 주파수를 절반으로 낮춰 동작시키기 때문', '클럭 트리의 버퍼 수가 줄어 면적과 전력이 절감되기 때문'], a: 0, ex: '두 번째가 고전 함정 — 누설은 전원이 살아있는 한 계속 새요(그건 power gating의 몫). clock gating이 잡는 건 스위칭(dynamic)만.' },
+          { q: '왜 placement(배치)가 타이밍을 좌우할까?', o: ['셀 사이 거리가 곧 배선 길이 = RC 지연이라, 연결된 셀을 가깝게 둘수록 경로가 빨라지기 때문', '배치가 각 셀의 drive strength를 좌표에 따라 자동으로 결정하기 때문', '배치 좌표가 클럭의 도착 순서를 직접 정의하기 때문', '멀리 떨어진 셀은 서로 다른 전원 도메인으로 분류되어 level shifter가 필요해지기 때문'], a: 0, ex: 'sizing은 최적화가 따로 하는 일(두 번째), 클럭 도착은 CTS의 몫(세 번째). 배치의 본질 기여는 하나 — 거리 = 전선 길이 = 지연.' },
+        ]
+      }
+    };
+
+    const qEl = document.getElementById('quizview');
+    const roadEls = [document.querySelector('.intro'), document.getElementById('road'), document.querySelector('footer')];
+    let qs = null; // {set, deck, idx, score, streak, maxStreak, wrongs}
+    const OKMSG = ['정답! 그게 바로 signoff 감각 👏', '좋아요, tape-out에 한 걸음 🚀', '깔끔합니다. slack +0.1 🟢', '오, 면접에서 그대로 말해도 돼요 💬', '완벽. 이 페이스면 closure 금방 🔥', 'WNS가 좋아지는 소리가 들려요 📈'];
+    const NOMSG = ['아깝다! 지금 틀리는 게 제일 싸게 먹혀요 😅', '괜찮아요, ECO 한 번이면 고쳐집니다 🔧', '메모! 이런 게 면접 단골이에요 ✍️', 'hold 위반 같은 실수 — 지금 잡아서 다행 🙂', '한 번 틀린 건 두 번 안 틀려요 💪'];
+    const rand = a => a[Math.floor(Math.random() * a.length)];
+    const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    function qBest() { try { return JSON.parse(localStorage.getItem(QBEST_KEY)) || {}; } catch (e) { return {}; } }
+    function qSaveBest(k, v) { const b = qBest(); if (!(k in b) || v > b[k]) { b[k] = v; localStorage.setItem(QBEST_KEY, JSON.stringify(b)); return true; } return false; }
+
+    document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+      const quiz = t.dataset.view === 'quiz';
+      roadEls.forEach(e => e && (e.style.display = quiz ? 'none' : ''));
+      qEl.style.display = quiz ? '' : 'none';
+      if (quiz) { try { closePanel(); } catch (e) { } if (!qEl.innerHTML) qHome(); window.scrollTo({ top: 0 }); }
+    }));
+
+    function qHome() {
+      const b = qBest();
+      qEl.innerHTML = `<div class="qh"><h2>이론 퀴즈<span class="mono">툴 셋업을 기다리는 동안, 이론은 먼저 signoff</span></h2>
+        <p>난이도별 <b style="color:var(--ink)">이론 노트</b>로 공부하고, 20문제로 확인하세요. 즉시 해설이 붙어서 틀려도 남는 게 있어요.</p></div>
+        <div class="qcards">${Object.values(QUIZ).map(s => `
+          <div class="qcard" style="--qc:${s.color}"><div class="em">${s.em}</div>
+            <div class="lvl">LEVEL · ${s.name}</div><h3>${s.name.split(' · ')[1]}</h3>
+            <div class="crit">${s.crit}</div>
+            <div class="best">최고 기록: ${b[s.key] != null ? b[s.key] + ' / 20' : '—'}</div>
+            <div class="qbtns"><button class="qbtn" data-note="${s.key}">📖 이론 노트</button><button class="qbtn go" data-go="${s.key}">시작 ▶</button></div>
+          </div>`).join('')}</div>`;
+      qEl.querySelectorAll('[data-note]').forEach(x => x.addEventListener('click', () => qNotes(x.dataset.note)));
+      qEl.querySelectorAll('[data-go]').forEach(x => x.addEventListener('click', () => qStart(x.dataset.go)));
+    }
+
+    function qNotes(k) {
+      const s = QUIZ[k];
+      qEl.innerHTML = `<button class="qback">← 난이도 선택</button>
+        <div class="qh" style="--qc:${s.color}"><h2>${s.em} ${s.name} · 이론 노트<span class="mono">이것만 알면 20문제 정복</span></h2></div>
+        <div style="margin-top:16px">${s.notes.map(n => `<div class="qnote" style="--qc:${s.color}"><b>${n[0]}</b><span>${n[1]}</span></div>`).join('')}</div>
+        <button class="qnext" style="display:block">다 읽었어요 — 퀴즈 시작 ▶</button>`;
+      qEl.querySelector('.qback').addEventListener('click', qHome);
+      qEl.querySelector('.qnext').addEventListener('click', () => qStart(k));
+    }
+
+    function qStart(k, deck) {
+      const s = QUIZ[k];
+      deck = deck || shuffle(s.qs.map((q, i) => i));
+      qs = { set: s, deck, idx: 0, score: 0, streak: 0, maxStreak: 0, wrongs: [] };
+      qRender();
+    }
+
+    function qRender() {
+      const s = qs.set, qi = qs.deck[qs.idx], Q = s.qs[qi];
+      const order = shuffle(Q.o.map((_, i) => i));
+      qEl.innerHTML = `<div class="qtop" style="--qc:${s.color}"><span class="qlv">${s.em} ${s.name}</span>
+          <span class="qn">${qs.idx + 1} / ${qs.deck.length} · 점수 ${qs.score}</span>
+          <span class="qstreak">${qs.streak >= 3 ? '🔥×' + qs.streak : ''}</span>
+          <button class="qback" style="padding:0">✕ 그만</button></div>
+        <div class="qbar" style="--qc:${s.color}"><i style="width:${qs.idx / qs.deck.length * 100}%"></i></div>
+        <div class="qq">Q${qs.idx + 1}. ${Q.q}</div>
+        <div class="qopts">${order.map(oi => `<button class="qopt" data-oi="${oi}">${Q.o[oi]}</button>`).join('')}</div>
+        <div class="qfb"></div><button class="qnext">다음 ▶</button>`;
+      qEl.querySelector('.qback').addEventListener('click', qHome);
+      const fb = qEl.querySelector('.qfb'), next = qEl.querySelector('.qnext');
+      qEl.querySelectorAll('.qopt').forEach(btn => btn.addEventListener('click', () => {
+        const pick = +btn.dataset.oi, ok = pick === Q.a;
+        qEl.querySelectorAll('.qopt').forEach(b => {
+          b.disabled = true;
+          const oi = +b.dataset.oi;
+          if (oi === Q.a) b.classList.add('ok'); else if (oi === pick) b.classList.add('no'); else b.classList.add('dim');
+        });
+        if (ok) { qs.score++; qs.streak++; qs.maxStreak = Math.max(qs.maxStreak, qs.streak); }
+        else { qs.streak = 0; qs.wrongs.push(qi); }
+        fb.className = 'qfb ' + (ok ? 'ok' : 'no');
+        fb.innerHTML = `<div class="fbt">${ok ? rand(OKMSG) : rand(NOMSG)}</div>${Q.ex}`;
+        next.style.display = 'block';
+        next.textContent = qs.idx + 1 < qs.deck.length ? '다음 ▶' : '결과 보기 🏁';
+        next.focus();
+      }));
+      next.addEventListener('click', () => { qs.idx++; qs.idx < qs.deck.length ? qRender() : qEnd(); });
+    }
+
+    function qEnd() {
+      const s = qs.set, n = qs.deck.length, sc = qs.score;
+      const pct = sc / n;
+      const [gem, grade, msg] =
+        sc === n ? ['💎', 'PERFECT', 'signoff clean! 전 코너 WNS ≥ 0 — tape-out 하세요 🎉'] :
+        pct >= .9 ? ['🏆', 'S', '거의 완벽! 오답만 ECO 하면 끝나요'] :
+        pct >= .8 ? ['🥇', 'A', '탄탄해요. 면접에서 밀리지 않을 수준'] :
+        pct >= .65 ? ['🥈', 'B', '흐름은 잡혔어요. 이론 노트 한 번 더!'] :
+        pct >= .5 ? ['🥉', 'C', '절반은 넘었다! 오답 다시 풀기로 굳히기'] :
+        ['🌱', 'D', '지금 틀리는 건 공짜예요. 노트 정독 → 재도전!'];
+      const isBest = qSaveBest(s.key, sc);
+      const wr = qs.wrongs.map(qi => { const Q = s.qs[qi]; return `<div class="qwr">Q. ${Q.q}<br><b>→ ${Q.o[Q.a]}</b><br>${Q.ex}</div>`; }).join('');
+      qEl.innerHTML = `<div class="qres" style="--qc:${s.color}"><div class="gem">${gem}</div>
+          <div class="grade">GRADE ${grade}</div><div class="sc">${sc} / ${n}</div>
+          <div class="msg">${msg}${qs.maxStreak >= 5 ? `<br>최장 연속 정답 ${qs.maxStreak}개 ⚡` : ''}</div>
+          <div class="bestn">${isBest ? '🎖 최고 기록 갱신!' : '최고 기록: ' + (qBest()[s.key] ?? sc) + ' / 20'}</div>
+          <div class="qbtns" style="max-width:420px;margin:20px auto 0">
+            ${qs.wrongs.length ? `<button class="qbtn go" id="qRetryWrong">오답만 다시 (${qs.wrongs.length})</button>` : ''}
+            <button class="qbtn" id="qRetryAll">전체 다시</button><button class="qbtn" id="qGoHome">난이도 선택</button></div></div>
+        ${qs.wrongs.length ? `<div class="qwrong"><h4>WRONG ANSWER NOTE — 이게 진짜 공부</h4>${wr}</div>` : ''}`;
+      const rw = qEl.querySelector('#qRetryWrong'); if (rw) rw.addEventListener('click', () => qStart(s.key, shuffle(qs.wrongs)));
+      qEl.querySelector('#qRetryAll').addEventListener('click', () => qStart(s.key));
+      qEl.querySelector('#qGoHome').addEventListener('click', qHome);
+    }
   </script>
 </body>
 
